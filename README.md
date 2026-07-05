@@ -9,6 +9,13 @@ every account, every ratio, three years deep — then uses Claude to explain wha
 plain English, draft the chase and win-back emails, and answer free-form questions against
 live Xero data.
 
+**Guardrails were the first design decision.** AI is strong, and with historic books that is
+exactly the problem — the last thing an operator needs is a hallucinated finding: nuked books,
+or a manager accused over something that never happened. So nothing in the detection is a
+model's opinion. Every finding deep-links through Xero's short-code redirect straight into the
+live record — your accountant clicks the line, lands on the reconciliation, and decides. The AI
+explains and drafts; the ledger stays the source of truth.
+
 Built in 24 hours for the **Xero App & Agent Hackathon** (Encode Club, London, 4–5 July 2026).
 Entered for **Bounty 01: Productivity Powerhouse** and **Bounty 03: Cash Flow Accelerator**.
 
