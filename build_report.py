@@ -722,6 +722,77 @@ body {{
   {module_pages_html}
 
   <div class="report-page" data-page="2">
+  <div class="bounded-box" style="margin-bottom: 1.5cqi;">
+    <div class="box-header">
+      <div class="text-small-bold">the agent, working</div>
+      <div class="text-small-bold" style="opacity: 0.5;">three real exchanges, captured verbatim</div>
+    </div>
+    <div style="padding: 1.5cqi 2cqi; font-size: 1.1cqi; color: var(--ink-faded); font-style: italic; font-family: 'Times New Roman', serif;">
+      The detection is deterministic. This layer is not — it's Claude with tools, calling live Xero
+      data and deciding for itself what to pull. Nothing below is scripted; the tool calls are the
+      agent's own workings.
+    </div>
+  </div>
+
+  <div class="bounded-box" style="margin-bottom: 1.5cqi;">
+    <div class="box-header">
+      <div class="text-small-bold">"which supplier did we pay twice this year?"</div>
+      <div class="text-small-bold" style="opacity: 0.5;">1 tool call</div>
+    </div>
+    <div style="padding: 1.5cqi 2cqi; font-family: 'Courier New', monospace; font-size: 0.95cqi; color: var(--ink-faded); line-height: 1.9;">
+      &gt; calling get_findings({{"finding_type": "duplicate_payment"}})<br>
+      &lt; get_findings returned 1 result(s) (82ms)
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif;">
+      You paid Zurich Insurance twice this year. Both payments were for £1,800, dated 10 March
+      and 13 March – three days apart.
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 0.85cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em;">claude-sonnet · 3.8s · 3,099 in / 96 out tokens</div>
+  </div>
+
+  <div class="bounded-box" style="margin-bottom: 1.5cqi;">
+    <div class="box-header">
+      <div class="text-small-bold">"have wages been creeping up as a share of sales over the last year?"</div>
+      <div class="text-small-bold" style="opacity: 0.5;">5 tool calls — its own idea</div>
+    </div>
+    <div style="padding: 1.5cqi 2cqi; font-family: 'Courier New', monospace; font-size: 0.95cqi; color: var(--ink-faded); line-height: 1.9;">
+      &gt; calling get_profit_and_loss({{"from_date": "2024-01-01", "to_date": "2024-12-31"}})<br>
+      &gt; calling get_profit_and_loss({{"from_date": "2024-01-01", "to_date": "2024-03-31"}})<br>
+      &gt; calling get_profit_and_loss({{"from_date": "2024-04-01", "to_date": "2024-06-30"}})<br>
+      &gt; calling get_profit_and_loss({{"from_date": "2024-07-01", "to_date": "2024-09-30"}})<br>
+      &gt; calling get_profit_and_loss({{"from_date": "2024-10-01", "to_date": "2024-12-31"}})<br>
+      &lt; 14 row(s) each — it broke the year into quarters itself
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif;">
+      Yes, wages have crept up. Q1 wages were 26.3% of sales (£33,446 on £126,969), Q2 was 26.5%,
+      Q3 jumped to 27.8%, and Q4 held at 25.6%. The Q3 spike is the outlier, but overall the wage
+      ratio has been bouncing around the mid-to-high 26% mark with no clear downward trend — so
+      labour cost as a share of revenue hasn't improved over the year.
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 0.85cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em;">claude-sonnet · 12.6s · 6,704 in / 551 out tokens</div>
+  </div>
+
+  <div class="bounded-box" style="margin-bottom: 1.5cqi;">
+    <div class="box-header">
+      <div class="text-small-bold">"pull the trial balance and tell me if anything looks off"</div>
+      <div class="text-small-bold" style="opacity: 0.5;">via Xero's remote MCP server</div>
+    </div>
+    <div style="padding: 1.5cqi 2cqi; font-family: 'Courier New', monospace; font-size: 0.95cqi; color: var(--ink-faded); line-height: 1.9;">
+      &gt; calling get_trial_balance_via_mcp({{"date": "2024-01-15"}})<br>
+      &lt; full MCP handshake against builders.xero.com — initialize &rarr; initialized &rarr; tools/call (1,190ms)
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif;">
+      The trial balance as of 15 January 2024 balances clean, but one thing stands out: the
+      Business Current Account shows a credit balance of £8,509.51. A current account in credit
+      typically means the business owes the bank money — it should normally be a debit. Otherwise
+      the structure looks standard: revenue of ~£290k, COGS and wages making up most of the costs,
+      and a VAT liability of £42,930 sitting there.
+    </div>
+    <div style="padding: 0 2cqi 1.5cqi; font-size: 0.85cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em;">claude-sonnet · 8.5s · 6,268 in / 205 out tokens</div>
+  </div>
+  </div>
+
+  <div class="report-page" data-page="3">
   <div class="bounded-box" style="margin-top: 0;">
     <div class="box-header">
       <div class="text-small-bold"><span class="blinking-dot"></span>ask the pass</div>
@@ -766,7 +837,7 @@ body {{
   </div>
 </div>
 <script>
-  const totalPages = 3;
+  const totalPages = 4;
   let currentPage = 0;
 
   function goToModule(i) {{
