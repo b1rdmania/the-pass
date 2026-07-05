@@ -116,7 +116,7 @@ body {
 .audit-detail { display: none; margin-top: 1cqi; border: var(--border-width) solid var(--ink-faded); background: rgba(0,0,0,0.02); }
 .chase-draft { margin-top: 1.2cqi; border: var(--border-width) solid var(--ink); background: rgba(45,55,72,0.04); padding: 1.5cqi 2cqi; }
 .chase-draft pre { font-family: 'Courier New', Courier, monospace; font-size: 1.05cqi; white-space: pre-wrap; color: var(--ink); line-height: 1.5; }
-.trace-line { font-size: 1cqi; color: var(--ink-faded); padding: 0.3cqi 0; font-style: italic; font-family: 'Times New Roman', serif; }
+.trace-line { font-size: 1.25cqi; color: var(--ink-faded); padding: 0.3cqi 0; font-style: italic; font-family: 'Times New Roman', serif; }
 .trace-line.tool { color: var(--ink-blue); font-style: normal; font-family: inherit; }
 </style>
 </head>
@@ -187,16 +187,16 @@ body {
         <div class="term-title" id="rescan-btn" style="cursor:pointer; text-decoration:underline;" onclick="rerunScan()"><span class="blinking-dot" style="background:#4ade80;"></span>re-run scan</div>
       </div>
       <div class="terminal-body" id="terminal-log">
-        <div class="term-line log-entry" style="--i: 0;"><span class="term-prompt">[12:17]&nbsp;$</span> 84 raw signals -> 10 stories after de-dup</div>
-<div class="term-line log-entry" style="--i: 1;"><span class="term-prompt">[12:15]&nbsp;$</span> aged_payable detector -> 1 bill, 993 days overdue</div>
-<div class="term-line log-entry" style="--i: 2;"><span class="term-prompt">[12:14]&nbsp;$</span> ratio_anomaly detector -> wages/sales, card-fee/sales, comps/sales</div>
-<div class="term-line log-entry" style="--i: 3;"><span class="term-prompt">[12:12]&nbsp;$</span> drift detector -> 6-month baseline, bank fees +136%</div>
-<div class="term-line log-entry" style="--i: 4;"><span class="term-prompt">[12:11]&nbsp;$</span> variance detector -> 3-month trailing avg, 10 accounts scanned</div>
-<div class="term-line log-entry" style="--i: 5;"><span class="term-prompt">[12:10]&nbsp;$</span> duplicate_payment detector -> 1 match, zurich insurance</div>
-<div class="term-line log-entry" style="--i: 6;"><span class="term-prompt">[12:08]&nbsp;$</span> pulled 1 accpay bill · aged payables scan</div>
-<div class="term-line log-entry" style="--i: 7;"><span class="term-prompt">[12:07]&nbsp;$</span> pulled 302 bank_transactions · 36 months</div>
-<div class="term-line log-entry" style="--i: 8;"><span class="term-prompt">[12:06]&nbsp;$</span> connected -> xero accounting api · oauth2 pkce</div>
-<div class="term-line log-entry" style="--i: 9;"><span class="term-prompt">[12:05]&nbsp;$</span> org: hackathon test · tenant authorised</div>
+        <div class="term-line log-entry" style="--i: 0;"><span class="term-prompt">[12:46]&nbsp;$</span> 84 raw signals -> 10 stories after de-dup</div>
+<div class="term-line log-entry" style="--i: 1;"><span class="term-prompt">[12:44]&nbsp;$</span> aged_payable detector -> 1 bill, 993 days overdue</div>
+<div class="term-line log-entry" style="--i: 2;"><span class="term-prompt">[12:43]&nbsp;$</span> ratio_anomaly detector -> wages/sales, card-fee/sales, comps/sales</div>
+<div class="term-line log-entry" style="--i: 3;"><span class="term-prompt">[12:41]&nbsp;$</span> drift detector -> 6-month baseline, bank fees +136%</div>
+<div class="term-line log-entry" style="--i: 4;"><span class="term-prompt">[12:40]&nbsp;$</span> variance detector -> 3-month trailing avg, 10 accounts scanned</div>
+<div class="term-line log-entry" style="--i: 5;"><span class="term-prompt">[12:39]&nbsp;$</span> duplicate_payment detector -> 1 match, zurich insurance</div>
+<div class="term-line log-entry" style="--i: 6;"><span class="term-prompt">[12:37]&nbsp;$</span> pulled 1 accpay bill · aged payables scan</div>
+<div class="term-line log-entry" style="--i: 7;"><span class="term-prompt">[12:36]&nbsp;$</span> pulled 302 bank_transactions · 36 months</div>
+<div class="term-line log-entry" style="--i: 8;"><span class="term-prompt">[12:35]&nbsp;$</span> connected -> xero accounting api · oauth2 pkce</div>
+<div class="term-line log-entry" style="--i: 9;"><span class="term-prompt">[12:34]&nbsp;$</span> org: hackathon test · tenant authorised</div>
 <div class="term-line log-entry" style="--i: 10;"><span class="term-cursor">&#9608;</span></div>
       </div>
       <div class="terminal-footer">
@@ -442,41 +442,41 @@ body {
         <div class="finding-summary">the camden collective - corporate events owes £3,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</div>
         
         <div class="finding-action">&rarr; chase before it becomes a write-off - see the drafted message below.</div>
-        <div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>**Subject: Invoice #[NUMBER] – Payment now 42 days overdue**
+        <div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>**Subject: Invoice #[number] – Payment Request**
 
-Hi [NAME],
+Hi there,
 
-I hope you're well. I'm writing about our outstanding invoice for £3,250.00, which was due 42 days ago.
+I hope you're well. I'm reaching out about our outstanding invoice for £3,250.00 from [date], which is now 42 days overdue.
 
-We've really enjoyed working with The Camden Collective on your recent event, and I'm sure this has just slipped through the cracks during a busy period.
+We really value our partnership with The Camden Collective and want to keep things running smoothly for future events.
 
-Could you please arrange payment this week? If there's any issue with the invoice or you need a copy resent, just let me know and I'll sort it straight away.
+Could you please arrange payment this week? If there's an issue with the invoice or if it's gone astray, just let me know and I'll happily resend it.
+
+Looking forward to working with you again soon.
+
+Thanks,
+
+[Your name]
+[Your title]
+[Company name]
+[Phone number]</pre></div><div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>**Subject: Invoice #[NUMBER] – Payment Now Overdue**
+
+Hi there,
+
+I hope you're well. I'm writing about our outstanding invoice for £1,180.00, which is now 79 days overdue.
+
+I understand things can slip through the cracks, but this payment is significantly delayed and is impacting our small business cashflow.
+
+Could you please arrange payment by the end of this week? If there's an issue with the invoice or you need alternative payment arrangements, I'm happy to discuss – just let me know.
+
+I'd really appreciate your prompt attention to this matter so we can keep our business relationship on good terms.
 
 Looking forward to hearing from you.
 
 Best regards,
-
-[YOUR NAME]
-[YOUR TITLE]
-[CONTACT DETAILS]</pre></div><div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>**Subject: Outstanding Invoice – The Camden Collective**
-
-Hi there,
-
-I hope you're well.
-
-I'm writing about our invoice for £1,180.00, which is now 79 days overdue. I've sent a couple of reminders but haven't heard back yet.
-
-I understand things get busy, but this payment is significantly overdue and I'd really appreciate it being settled now.
-
-Could you please arrange payment this week? If there's an issue I'm not aware of, just let me know and we can work it out.
-
-Thanks for your help.
-
-Best regards,
-
 [Your name]
 [Your business name]
-[Phone number]</pre></div>
+[Contact number]</pre></div>
         <div class="audit-toggle" onclick="document.getElementById('audit-8').style.display = document.getElementById('audit-8').style.display === 'block' ? 'none' : 'block'">view raw records (2) &darr;</div>
         <div id="audit-8" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">The Camden Collective - Corporate Events owes £3,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D5236143a-1f23-4551-9a20-ce6095ce2092" target="_blank" style="color: var(--ink-blue);">open bill in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">The Camden Collective - Corporate Events owes £1,180.00, 79 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D79ffa19d-549e-4dde-8cde-4b76aea664e4" target="_blank" style="color: var(--ink-blue);">open bill in xero &#8599;</a></div></div></div>
       </div>
@@ -504,20 +504,19 @@ Best regards,
 
 Hi there,
 
-It's been a while since we last saw the Borough Films team – over a year now – and we wanted to reach out.
+It's been a while since we last saw the Borough Films team – over a year now – and we genuinely hope all's well with you.
 
-You were brilliant regulars with us, hosting six wrap parties that always had such a great atmosphere. We loved having you here, and frankly, the place hasn't been quite the same without you.
+We've always loved hosting your wrap parties here (six brilliant evenings, if memory serves), and the energy your crew brings is exactly what makes our venue special.
 
-We'd love to welcome you back. Whether you've got another celebration coming up or just fancy catching up about what we can offer, I'm here.
+If you've got another production wrapping soon, or just fancy catching up about what we could do for your next celebration, I'd love to hear from you.
 
-Would you be free for a quick call sometime? Or just hit reply – whatever works for you.
-
-Really hope to hear from you soon.
+We're here whenever you need us.
 
 Warm regards,
 
 [Your name]
 [Your title]
+[Venue name]
 [Phone number]</pre></div>
         <div class="audit-toggle" onclick="document.getElementById('audit-9').style.display = document.getElementById('audit-9').style.display === 'block' ? 'none' : 'block'">view raw records (1) &darr;</div>
         <div id="audit-9" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">Borough Films Ltd - Wrap Parties: 6 bookings averaging £3,087.50, then nothing for 418 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ac11376-7a09-47dc-b95b-f731c81e31c6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2cbb7d3d-f399-4741-a0de-d14bec17f251" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd45940b6-4d56-4397-97b9-5a071f78c2c8" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294a7f71-349b-4719-8595-41c2441a623c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D0bcc205f-07c1-4d4c-8457-6b0522f2dfd6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D26d520d7-4afa-4ecf-960d-e5105747dd8e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
@@ -610,11 +609,11 @@ Warm regards,
     </div>
     <div style="padding: 2cqi; display: flex; gap: 1cqi;">
       <input id="ask-input" type="text" placeholder="e.g. did we get overcharged on card fees recently?"
-        style="flex: 1; border: var(--border-width) solid var(--ink); background: transparent; padding: 1.2cqi 1.5cqi; font-family: inherit; font-size: 1.2cqi; color: var(--ink);">
+        style="flex: 1; border: var(--border-width) solid var(--ink); background: transparent; padding: 1.2cqi 1.5cqi; font-family: inherit; font-size: 1.5cqi; color: var(--ink);">
       <button id="ask-btn" style="border: var(--border-width) solid var(--ink); background: var(--ink); color: var(--paper); padding: 1.2cqi 2cqi; font-family: inherit; font-size: 1.1cqi; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;">ask</button>
     </div>
     <div id="ask-trace" style="padding: 0 2cqi; display: none;"></div>
-    <div id="ask-answer" style="padding: 1cqi 2cqi 2cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; display: none;"></div>
+    <div id="ask-answer" style="padding: 1cqi 2cqi 2cqi; font-size: 1.7cqi; line-height: 1.5; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; display: none;"></div>
     <div id="ask-meta" style="padding: 0 2cqi 1.5cqi; font-size: 0.9cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em; display: none;"></div>
   </div>
   </div>
@@ -728,7 +727,8 @@ Warm regards,
           } else if (evt.event === 'tool_result') {
             addTraceLine('< ' + evt.tool + ' returned ' + evt.summary + ' (' + evt.duration_ms + 'ms)', false);
           } else if (evt.event === 'answer') {
-            answerBox.textContent = evt.text;
+            const esc = evt.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            answerBox.innerHTML = esc.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
             metaBox.style.display = 'block';
             metaBox.textContent = evt.model + ' · ' + evt.latency_ms + 'ms · ' + evt.input_tokens + ' in / ' + evt.output_tokens + ' out tokens';
           }

@@ -630,7 +630,7 @@ body {{
 .audit-detail {{ display: none; margin-top: 1cqi; border: var(--border-width) solid var(--ink-faded); background: rgba(0,0,0,0.02); }}
 .chase-draft {{ margin-top: 1.2cqi; border: var(--border-width) solid var(--ink); background: rgba(45,55,72,0.04); padding: 1.5cqi 2cqi; }}
 .chase-draft pre {{ font-family: 'Courier New', Courier, monospace; font-size: 1.05cqi; white-space: pre-wrap; color: var(--ink); line-height: 1.5; }}
-.trace-line {{ font-size: 1cqi; color: var(--ink-faded); padding: 0.3cqi 0; font-style: italic; font-family: 'Times New Roman', serif; }}
+.trace-line {{ font-size: 1.25cqi; color: var(--ink-faded); padding: 0.3cqi 0; font-style: italic; font-family: 'Times New Roman', serif; }}
 .trace-line.tool {{ color: var(--ink-blue); font-style: normal; font-family: inherit; }}
 </style>
 </head>
@@ -800,11 +800,11 @@ body {{
     </div>
     <div style="padding: 2cqi; display: flex; gap: 1cqi;">
       <input id="ask-input" type="text" placeholder="e.g. did we get overcharged on card fees recently?"
-        style="flex: 1; border: var(--border-width) solid var(--ink); background: transparent; padding: 1.2cqi 1.5cqi; font-family: inherit; font-size: 1.2cqi; color: var(--ink);">
+        style="flex: 1; border: var(--border-width) solid var(--ink); background: transparent; padding: 1.2cqi 1.5cqi; font-family: inherit; font-size: 1.5cqi; color: var(--ink);">
       <button id="ask-btn" style="border: var(--border-width) solid var(--ink); background: var(--ink); color: var(--paper); padding: 1.2cqi 2cqi; font-family: inherit; font-size: 1.1cqi; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;">ask</button>
     </div>
     <div id="ask-trace" style="padding: 0 2cqi; display: none;"></div>
-    <div id="ask-answer" style="padding: 1cqi 2cqi 2cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; display: none;"></div>
+    <div id="ask-answer" style="padding: 1cqi 2cqi 2cqi; font-size: 1.7cqi; line-height: 1.5; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; display: none;"></div>
     <div id="ask-meta" style="padding: 0 2cqi 1.5cqi; font-size: 0.9cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em; display: none;"></div>
   </div>
   </div>
@@ -918,7 +918,8 @@ body {{
           }} else if (evt.event === 'tool_result') {{
             addTraceLine('< ' + evt.tool + ' returned ' + evt.summary + ' (' + evt.duration_ms + 'ms)', false);
           }} else if (evt.event === 'answer') {{
-            answerBox.textContent = evt.text;
+            const esc = evt.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            answerBox.innerHTML = esc.replace(/\\*\\*(.+?)\\*\\*/g, '<b>$1</b>');
             metaBox.style.display = 'block';
             metaBox.textContent = evt.model + ' · ' + evt.latency_ms + 'ms · ' + evt.input_tokens + ' in / ' + evt.output_tokens + ' out tokens';
           }}
