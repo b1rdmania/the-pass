@@ -55,6 +55,11 @@ def index():
     return send_file(os.path.join(os.getcwd(), "report.html"))
 
 
+@app.route("/accountant.html")
+def accountant():
+    return send_file(os.path.join(os.getcwd(), "accountant_report.html"))
+
+
 @app.route("/api/ask", methods=["POST"])
 def ask():
     question = request.json.get("question", "").strip()

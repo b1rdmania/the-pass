@@ -43,14 +43,23 @@ const it = (s) => `<span style="font-family:'Times New Roman',serif;font-style:i
 
   // -- 3. dashboard overview ----------------------------------------------------
   await page.goto('http://localhost:5050/', { waitUntil: 'networkidle' });
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(4500);
 
-  // -- 4. the modules, one slow scroll -------------------------------------------
+  // -- 4. the report, one long scroll --------------------------------------------
   await page.evaluate(() => window.goToPage(1));
-  await page.waitForTimeout(2000);
-  for (let i = 0; i < 6; i++) {
-    await page.evaluate(() => window.scrollBy({ top: 700, behavior: 'smooth' }));
-    await page.waitForTimeout(1400);
+  await page.waitForTimeout(1800);
+  for (let i = 0; i < 8; i++) {
+    await page.evaluate(() => window.scrollBy({ top: 720, behavior: 'smooth' }));
+    await page.waitForTimeout(1250);
+  }
+
+  // -- 4b. one click into the accountant view, same findings, controller language --
+  await page.click('a[href="accountant.html"]');
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(2500);
+  for (let i = 0; i < 3; i++) {
+    await page.evaluate(() => window.scrollBy({ top: 650, behavior: 'smooth' }));
+    await page.waitForTimeout(1500);
   }
 
   // -- 5. the agent card -----------------------------------------------------------
@@ -83,11 +92,7 @@ const it = (s) => `<span style="font-family:'Times New Roman',serif;font-style:i
   await page.waitForNavigation({ timeout: 90000 }).catch(() => {});
   await page.waitForTimeout(3500);
 
-  // -- 9. the accountant report -------------------------------------------------------------
-  await page.goto('file://' + path.join(__dirname, '..', 'accountant_report.html'));
-  await page.waitForTimeout(5000);
-
-  // -- 10. close ---------------------------------------------------------------------------
+  // -- 9. close ---------------------------------------------------------------------------
   await page.setContent(card(
     `Real oversight. More value from Xero. ${it('More profit.')}`,
     'open-sandal-rkdw.here.now &nbsp;·&nbsp; github.com/b1rdmania/the-pass'
