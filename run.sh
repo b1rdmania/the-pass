@@ -17,8 +17,12 @@ fi
 
 export XERO_WEBHOOK_KEY="${XERO_WEBHOOK_KEY:-test-webhook-signing-key}"
 
+# pin the interpreter - a PATH reshuffle after reboot once resolved python3 to
+# the bare system 3.9 with no packages, minutes before a demo
+PYTHON="${PYTHON:-/usr/local/bin/python3}"
+
 echo "Refreshing Xero token..."
-python3 scripts/refresh_token.py
+"$PYTHON" scripts/refresh_token.py
 
 echo "Starting The Pass on http://localhost:5050"
-python3 src/server.py
+"$PYTHON" src/server.py

@@ -18,6 +18,7 @@ import hmac
 import json
 import os
 import subprocess
+import sys
 import time
 
 import requests
@@ -202,7 +203,7 @@ def rescan():
     def generate():
         env = dict(os.environ, PYTHONUNBUFFERED="1")
         proc = subprocess.Popen(
-            ["python3", "-u", "src/detect.py"],
+            [sys.executable, "-u", "src/detect.py"],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             text=True, env=env,
         )
@@ -214,7 +215,7 @@ def rescan():
 
         yield json.dumps({"event": "log", "text": "rebuilding report.html..."}) + "\n"
         build_proc = subprocess.run(
-            ["python3", "src/build_report.py"], capture_output=True, text=True, env=env
+            [sys.executable, "src/build_report.py"], capture_output=True, text=True, env=env
         )
         if build_proc.returncode == 0:
             yield json.dumps({"event": "log", "text": build_proc.stdout.strip()}) + "\n"
