@@ -52,7 +52,7 @@ Rules:
 
 @app.route("/")
 def index():
-    return send_file("report.html")
+    return send_file(os.path.join(os.getcwd(), "report.html"))
 
 
 @app.route("/api/ask", methods=["POST"])
@@ -197,7 +197,7 @@ def rescan():
     def generate():
         env = dict(os.environ, PYTHONUNBUFFERED="1")
         proc = subprocess.Popen(
-            ["python3", "-u", "detect.py"],
+            ["python3", "-u", "src/detect.py"],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             text=True, env=env,
         )
@@ -209,7 +209,7 @@ def rescan():
 
         yield json.dumps({"event": "log", "text": "rebuilding report.html..."}) + "\n"
         build_proc = subprocess.run(
-            ["python3", "build_report.py"], capture_output=True, text=True, env=env
+            ["python3", "src/build_report.py"], capture_output=True, text=True, env=env
         )
         if build_proc.returncode == 0:
             yield json.dumps({"event": "log", "text": build_proc.stdout.strip()}) + "\n"

@@ -111,37 +111,53 @@ handshake against `builders.xero.com`).
 - **Webhooks**: HMAC-SHA256 signature verification per Xero's spec, tested against signed and
   tampered payloads (`verify_webhook.py`)
 
-## File manifest
+## Project layout
 
-| File | Role |
-|---|---|
-| `seed_data.py`, `add_receivables.py`, `add_churned_customer.py` | Seed the demo org with 3 years of realistic history + deliberate anomalies |
-| `detect.py` | The detection engine — pulls live Xero data, runs all detectors, writes `findings.json` + `timeseries.json` |
-| `build_report.py` | Renders the owner dashboard (`report.html`) |
-| `build_accountant_report.py` | Renders the accountant reconciliation report (`accountant_report.html`) |
-| `xero_tools.py` | Agent tool layer — REST tools + one routed through the real MCP server |
-| `xero_mcp_client.py` | Minimal client for Xero's MCP Streamable HTTP handshake |
-| `server.py` | Flask app: dashboard, live agent chat, live re-scan, OAuth disconnect, signature-verified webhook receiver |
-| `xero_auth.py`, `refresh_token.py` | OAuth2 PKCE login + token refresh |
-| `verify_webhook.py` | Proves webhook signature verification against a simulated signed payload |
-| `deck.html`, `the-pass-deck.pdf` | The pitch deck (HTML + PDF) |
-| `video/record-demo.js` | Records the working-demo video: one continuous Playwright session against the live app |
+```
+src/        the running system
+  detect.py                 detection engine - pulls live Xero data, runs all
+                            detectors, writes findings.json + timeseries.json
+  build_report.py           renders the owner dashboard (report.html)
+  build_accountant_report.py  renders the accountant report
+  server.py                 Flask app: dashboard, live agent chat, live re-scan,
+                            OAuth disconnect, signature-verified webhook receiver
+  xero_tools.py             agent tool layer - REST tools + one routed through
+                            the real MCP server
+  xero_mcp_client.py        minimal client for Xero's MCP Streamable HTTP handshake
+
+scripts/    one-time and operational scripts
+  xero_auth.py              OAuth2 PKCE login (creates xero_tokens.json)
+  refresh_token.py          token refresh (access tokens last 30 minutes)
+  seed_data.py              seeds the demo org: 3 years of realistic history
+  add_receivables.py        seeds overdue invoices
+  add_churned_customer.py   seeds the lapsed high-value customer
+  verify_webhook.py         proves webhook signature verification (signed +
+                            tampered payloads against the running server)
+
+docs/       the pitch deck PDF
+video/      demo video tooling (record-demo.js: one continuous Playwright
+            session against the live app - the video is not edited)
+deck.html   the pitch deck (arrow keys to navigate)
+run.sh      demo launcher - refreshes the token, refuses to start without keys
+```
+
+All commands run from the repo root.
 
 ## Running it
 
 ```bash
 # one-time: authorise against your Xero app (creates xero_tokens.json)
-python3 xero_auth.py
+python3 scripts/xero_auth.py
 
 # one-time: seed the demo org
-python3 seed_data.py
-python3 add_receivables.py
-python3 add_churned_customer.py
+python3 scripts/seed_data.py
+python3 scripts/add_receivables.py
+python3 scripts/add_churned_customer.py
 
 # the pipeline
-python3 detect.py                    # pulls live data, writes findings
-python3 build_report.py              # owner dashboard -> report.html
-python3 build_accountant_report.py   # accountant report -> accountant_report.html
+python3 src/detect.py                    # pulls live data, writes findings
+python3 src/build_report.py              # owner dashboard -> report.html
+python3 src/build_accountant_report.py   # accountant report -> accountant_report.html
 
 # the live demo server (agent chat + live re-scan)
 ANTHROPIC_API_KEY=sk-... ./run.sh

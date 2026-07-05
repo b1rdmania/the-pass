@@ -18,7 +18,7 @@ fi
 export XERO_WEBHOOK_KEY="${XERO_WEBHOOK_KEY:-test-webhook-signing-key}"
 
 echo "Refreshing Xero token..."
-python3 refresh_token.py
+python3 scripts/refresh_token.py
 
 echo "Starting The Pass on http://localhost:5050"
-python3 server.py
+python3 src/server.py
