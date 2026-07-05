@@ -20,35 +20,19 @@
   a { color: #1a4b7a; }
   footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.8rem; color: #777; font-family: Arial, sans-serif; }
 
-  .report-page { animation: pageIn 0.3s ease-out; min-height: 40vh; }
-  @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-  .pager {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid #ccc;
-    font-family: Arial, sans-serif; font-size: 0.9rem;
-  }
-  .pager button {
-    font-family: Arial, sans-serif; font-size: 0.9rem; padding: 0.5rem 1.1rem;
-    border: 1px solid #1a1a1a; background: #fff; color: #1a1a1a; cursor: pointer;
-  }
-  .pager button:disabled { opacity: 0.3; cursor: default; }
-  .pager button:not(:disabled):hover { background: #1a1a1a; color: #fff; }
-  #page-indicator { color: #555; }
 </style>
 </head>
 <body>
-  <div class="report-page" data-page="0" style="display:block;">
+  
   <h1>Reconciliation Review — Hackathon Test</h1>
-  <div class="meta">Prepared by The Pass · 2026-07-04 · 36-month period reviewed</div>
+  <div class="meta">Prepared by The Pass · 2026-07-05 · 36-month period reviewed</div>
   <div class="summary">
     <strong>84</strong> items flagged for review across 6 categories,
     <strong>£71,914.01</strong> aggregate value referenced in this review (includes both
     confirmed and monitor-tier items — see individual severity ratings; not all items represent an
     error or loss, some are statistical deviations worth a second look during your normal review cycle).
   </div>
-  <p class="note" style="margin-top:2rem;">Use next/previous below to work through each category in turn.</p>
-</div><div class="report-page" data-page="1" style="display:none;">
+
     <section>
       <h2>Requires reclassification <span class="count">(1)</span></h2>
       <p class="note">Transaction sitting in an account code with no other history this period - confirm correct coding.</p>
@@ -64,7 +48,7 @@
         </tr></tbody>
       </table>
     </section>
-    </div><div class="report-page" data-page="2" style="display:none;">
+    
     <section>
       <h2>Requires verification / possible reversal <span class="count">(1)</span></h2>
       <p class="note">Two payments to the same payee, same amount, within 14 days - confirm not a duplicate before next reconciliation.</p>
@@ -80,7 +64,7 @@
         </tr></tbody>
       </table>
     </section>
-    </div><div class="report-page" data-page="3" style="display:none;">
+    
     <section>
       <h2>Requires collection action (receivables) <span class="count">(2)</span></h2>
       <p class="note">Customer invoice overdue - action per credit control policy.</p>
@@ -90,20 +74,20 @@
         <tr>
           <td>aged_receivable</td>
           <td>high</td>
-          <td>The Camden Collective - Corporate Events owes £3,250.00, 41 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</td>
+          <td>The Camden Collective - Corporate Events owes £3,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</td>
           <td>£3,250.00</td>
           <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D5236143a-1f23-4551-9a20-ce6095ce2092" target="_blank">invoice &#8599;</a></td>
         </tr>
         <tr>
           <td>aged_receivable</td>
           <td>high</td>
-          <td>The Camden Collective - Corporate Events owes £1,180.00, 78 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off.</td>
+          <td>The Camden Collective - Corporate Events owes £1,180.00, 79 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off.</td>
           <td>£1,180.00</td>
           <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D79ffa19d-549e-4dde-8cde-4b76aea664e4" target="_blank">invoice &#8599;</a></td>
         </tr></tbody>
       </table>
     </section>
-    </div><div class="report-page" data-page="4" style="display:none;">
+    
     <section>
       <h2>Requires payment / dispute resolution (payables) <span class="count">(1)</span></h2>
       <p class="note">Supplier bill unpaid past normal terms - confirm status (paid outside system, disputed, or genuinely outstanding).</p>
@@ -113,13 +97,13 @@
         <tr>
           <td>aged_payable</td>
           <td>high</td>
-          <td>Bright Electric Co: £2,140.55 unpaid, 993 days overdue (due 2023-10-15).</td>
+          <td>Bright Electric Co: £2,140.55 unpaid, 994 days overdue (due 2023-10-15).</td>
           <td>£2,140.55</td>
           <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D2dac9fe0-1f3b-4b99-80c4-fc32c9a5c7ee" target="_blank">invoice &#8599;</a></td>
         </tr></tbody>
       </table>
     </section>
-    </div><div class="report-page" data-page="5" style="display:none;">
+    
     <section>
       <h2>Cost trend review <span class="count">(78)</span></h2>
       <p class="note">Statistical deviation from trailing average - not necessarily an error, but worth a look during review.</p>
@@ -674,7 +658,7 @@
         </tr></tbody>
       </table>
     </section>
-    </div><div class="report-page" data-page="6" style="display:none;">
+    
     <section>
       <h2>Revenue / customer relationship flag (for controller awareness) <span class="count">(1)</span></h2>
       <p class="note">Not a bookkeeping item - flagged for revenue forecasting and credit-control awareness.</p>
@@ -684,19 +668,13 @@
         <tr>
           <td>customer_churn</td>
           <td>high</td>
-          <td>Borough Films Ltd - Wrap Parties: 6 bookings averaging £3,087.50, then nothing for 417 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</td>
+          <td>Borough Films Ltd - Wrap Parties: 6 bookings averaging £3,087.50, then nothing for 418 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</td>
           <td>£3,087.50</td>
           <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ac11376-7a09-47dc-b95b-f731c81e31c6" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2cbb7d3d-f399-4741-a0de-d14bec17f251" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd45940b6-4d56-4397-97b9-5a071f78c2c8" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294a7f71-349b-4719-8595-41c2441a623c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D0bcc205f-07c1-4d4c-8457-6b0522f2dfd6" target="_blank">transaction &#8599;</a></td>
         </tr></tbody>
       </table>
     </section>
-    </div>
-
-  <div class="pager">
-    <button id="prev-btn" onclick="goToPage(currentPage - 1)">&larr; Previous</button>
-    <span id="page-indicator"></span>
-    <button id="next-btn" onclick="goToPage(currentPage + 1)">Next &rarr;</button>
-  </div>
+    
 
   <footer>
     Methodology: deterministic detection over the Xero Accounting API (duplicate-payment matching,
@@ -706,31 +684,5 @@
     audit - treat it as a triage list for your next reconciliation pass.
   </footer>
 
-<script>
-  const totalPages = 7;
-  let currentPage = 0;
-
-  function goToPage(n) {
-    if (n < 0 || n >= totalPages) return;
-    document.querySelector(`.report-page[data-page="${currentPage}"]`).style.display = 'none';
-    currentPage = n;
-    const el = document.querySelector(`.report-page[data-page="${currentPage}"]`);
-    el.style.display = 'block';
-    el.style.animation = 'none';
-    void el.offsetWidth; // restart the fade-in animation each time
-    el.style.animation = 'pageIn 0.3s ease-out';
-    document.getElementById('prev-btn').disabled = currentPage === 0;
-    document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
-    document.getElementById('page-indicator').textContent = `Page ${currentPage + 1} of ${totalPages}`;
-    window.scrollTo(0, 0);
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
-    if (e.key === 'ArrowLeft') goToPage(currentPage - 1);
-  });
-
-  goToPage(0);
-</script>
 </body>
 </html>

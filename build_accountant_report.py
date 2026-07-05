@@ -104,9 +104,8 @@ today_str = date.today().isoformat()
 total_flagged = len(findings)
 total_impact_all = sum(f.get("estimated_impact", 0) for f in findings)
 
-# each populated category becomes its own page, not one long scroll -
-# a controller works through a reconciliation review category by category
-# anyway, so this maps to how the document actually gets used
+# all categories render on one page - a controller scans the whole review
+# top to bottom, and one scroll beats seven clicks
 category_pages = []
 for g in ACTION_GROUPS:
     items = grouped.get(g["heading"], [])
@@ -137,7 +136,7 @@ for g in ACTION_GROUPS:
     </section>
     """)
 
-cover_page = f"""
+header_html = f"""
   <h1>Reconciliation Review — {ORG_NAME}</h1>
   <div class="meta">Prepared by The Pass · {today_str} · 36-month period reviewed</div>
   <div class="summary">
@@ -146,14 +145,9 @@ cover_page = f"""
     confirmed and monitor-tier items — see individual severity ratings; not all items represent an
     error or loss, some are statistical deviations worth a second look during your normal review cycle).
   </div>
-  <p class="note" style="margin-top:2rem;">Use next/previous below to work through each category in turn.</p>
 """
 
-all_pages = [cover_page] + category_pages
-pages_html = "".join(
-    f'<div class="report-page" data-page="{i}" style="display:{"block" if i == 0 else "none"};">{p}</div>'
-    for i, p in enumerate(all_pages)
-)
+pages_html = header_html + "".join(category_pages)
 
 html = f"""<!doctype html>
 <html lang="en">
@@ -177,31 +171,10 @@ html = f"""<!doctype html>
   a {{ color: #1a4b7a; }}
   footer {{ margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.8rem; color: #777; font-family: Arial, sans-serif; }}
 
-  .report-page {{ animation: pageIn 0.3s ease-out; min-height: 40vh; }}
-  @keyframes pageIn {{ from {{ opacity: 0; transform: translateY(8px); }} to {{ opacity: 1; transform: translateY(0); }} }}
-
-  .pager {{
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid #ccc;
-    font-family: Arial, sans-serif; font-size: 0.9rem;
-  }}
-  .pager button {{
-    font-family: Arial, sans-serif; font-size: 0.9rem; padding: 0.5rem 1.1rem;
-    border: 1px solid #1a1a1a; background: #fff; color: #1a1a1a; cursor: pointer;
-  }}
-  .pager button:disabled {{ opacity: 0.3; cursor: default; }}
-  .pager button:not(:disabled):hover {{ background: #1a1a1a; color: #fff; }}
-  #page-indicator {{ color: #555; }}
 </style>
 </head>
 <body>
   {pages_html}
-
-  <div class="pager">
-    <button id="prev-btn" onclick="goToPage(currentPage - 1)">&larr; Previous</button>
-    <span id="page-indicator"></span>
-    <button id="next-btn" onclick="goToPage(currentPage + 1)">Next &rarr;</button>
-  </div>
 
   <footer>
     Methodology: deterministic detection over the Xero Accounting API (duplicate-payment matching,
@@ -211,32 +184,6 @@ html = f"""<!doctype html>
     audit - treat it as a triage list for your next reconciliation pass.
   </footer>
 
-<script>
-  const totalPages = {len(all_pages)};
-  let currentPage = 0;
-
-  function goToPage(n) {{
-    if (n < 0 || n >= totalPages) return;
-    document.querySelector(`.report-page[data-page="${{currentPage}}"]`).style.display = 'none';
-    currentPage = n;
-    const el = document.querySelector(`.report-page[data-page="${{currentPage}}"]`);
-    el.style.display = 'block';
-    el.style.animation = 'none';
-    void el.offsetWidth; // restart the fade-in animation each time
-    el.style.animation = 'pageIn 0.3s ease-out';
-    document.getElementById('prev-btn').disabled = currentPage === 0;
-    document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
-    document.getElementById('page-indicator').textContent = `Page ${{currentPage + 1}} of ${{totalPages}}`;
-    window.scrollTo(0, 0);
-  }}
-
-  document.addEventListener('keydown', (e) => {{
-    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
-    if (e.key === 'ArrowLeft') goToPage(currentPage - 1);
-  }});
-
-  goToPage(0);
-</script>
 </body>
 </html>
 """
