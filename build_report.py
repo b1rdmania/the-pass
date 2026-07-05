@@ -751,7 +751,10 @@ body {{
 
   <div class="header" style="margin-top: 1cqi; margin-bottom: 0;">
     <div class="text-hero">the pass.</div>
-    <div class="text-small-bold" style="letter-spacing: 0.2em;">xero_api.connected</div>
+    <div style="text-align: right;">
+      <div class="text-small-bold" style="letter-spacing: 0.2em;">xero_api.connected</div>
+      <a href="accountant.html" class="text-small-bold" style="color: var(--ink-blue); letter-spacing: 0.1em;">accountant view &#8599;</a>
+    </div>
   </div>
 </div>
 <script>

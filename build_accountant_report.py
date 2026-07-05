@@ -138,7 +138,8 @@ for g in ACTION_GROUPS:
 
 header_html = f"""
   <h1>Reconciliation Review — {ORG_NAME}</h1>
-  <div class="meta">Prepared by The Pass · {today_str} · 36-month period reviewed</div>
+  <div class="meta">Prepared by The Pass · {today_str} · 36-month period reviewed ·
+    <a href="index.html">&larr; owner dashboard</a></div>
   <div class="summary">
     <strong>{total_flagged}</strong> items flagged for review across {len(category_pages)} categories,
     <strong>£{total_impact_all:,.2f}</strong> aggregate value referenced in this review (includes both
