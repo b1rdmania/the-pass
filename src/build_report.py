@@ -879,10 +879,21 @@ body {{
     const sc = document.getElementById('signal-count');
     if (sc) sc.textContent = '\u2014 /obs';
     const tl = document.getElementById('terminal-log');
-    if (tl) tl.innerHTML = '<div class="term-line"><span class="term-prompt">$</span> connected \u00b7 xero accounting api \u00b7 oauth2 pkce</div>' +
-      '<div class="term-line"><span class="term-prompt">$</span> org: hackathon test \u00b7 tenant authorised</div>' +
-      '<div class="term-line"><span class="term-prompt">$</span> awaiting scan \u2014 hit re-run scan</div>' +
-      '<div class="term-line"><span class="term-cursor">\u2588</span></div>';
+    if (tl) {{
+      tl.innerHTML = '<div class="term-line"><span class="term-prompt">$</span> connected \u00b7 xero accounting api \u00b7 oauth2 pkce</div>' +
+        '<div class="term-line"><span class="term-prompt">$</span> org: hackathon test \u00b7 tenant authorised</div>' +
+        '<div class="term-line"><span class="term-prompt">$</span> ready.</div>' +
+        '<div style="display:flex; justify-content:center; padding: 3cqi 0 1cqi;">' +
+        '<button onclick="rerunScan()" style="background: var(--paper); color: var(--ink); border: none; ' +
+        'font-family: inherit; font-size: 2.2cqi; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; ' +
+        'padding: 1.6cqi 4cqi; cursor: pointer;">run full scan \u2192</button></div>' +
+        '<div class="term-line" style="text-align:center; color:#8a8a8a;">36 months \u00b7 every account \u00b7 every ratio</div>';
+    }}
+    // grey the module pills and the clear-count - no results shown before the scan
+    document.querySelectorAll('.module-pill .module-dot').forEach(d => d.style.background = '#b5ada0');
+    document.querySelectorAll('.fraction-text').forEach(f => {{
+      if (f.textContent.includes('clear')) f.innerHTML = '<span class="fraction-num">\u2014</span> /9 clear';
+    }});
   }}
 
   const btn = document.getElementById('ask-btn');
