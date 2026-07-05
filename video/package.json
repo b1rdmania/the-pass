@@ -1,0 +1,23 @@
+{
+  "name": "video",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "remotion render src/index.ts ThePassPitch out/the-pass-pitch.mp4",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@remotion/cli": "^4.0.484",
+    "@remotion/renderer": "^4.0.484",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.484"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

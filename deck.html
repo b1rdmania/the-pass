@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the pass — pitch</title>
+<style>
+:root {
+  --paper: #e6dfd0;
+  --paper-dark: #d4cbb8;
+  --ink: #1a1816;
+  --ink-faded: #4a4742;
+  --ink-blue: #2d3748;
+  --border-width: 1.5px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+html, body { height: 100%; background: #0f0f0f; overflow: hidden; }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--ink);
+}
+.slide {
+  position: absolute; inset: 0;
+  background: var(--paper);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6vw 8vw;
+}
+.slide.active { display: flex; }
+.kicker {
+  font-size: 1.2vw; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-faded);
+  margin-bottom: 2.5vw;
+}
+.hero { font-size: 5vw; font-weight: 400; letter-spacing: -0.01em; line-height: 1.12; }
+.hero b { font-weight: 700; }
+.serif { font-family: 'Times New Roman', Times, serif; font-style: italic; color: var(--ink-faded); }
+.sub { font-size: 2vw; line-height: 1.5; color: var(--ink-faded); margin-top: 2.5vw; max-width: 70vw; }
+.sub a { color: var(--ink-blue); }
+.footer {
+  position: absolute; bottom: 3vw; left: 8vw; right: 8vw;
+  display: flex; justify-content: space-between;
+  font-size: 0.95vw; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-faded);
+}
+.finding { border: var(--border-width) solid var(--ink); margin-top: 1.3vw; display: flex; align-items: stretch; }
+.finding .tag {
+  flex: 0 0 9vw; display: flex; align-items: center; justify-content: center;
+  border-right: var(--border-width) solid var(--ink);
+  font-size: 1.05vw; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.finding .txt { padding: 1.5vw 2vw; font-size: 2vw; line-height: 1.35; }
+.mono { font-family: 'Courier New', Courier, monospace; }
+.techlist { margin-top: 3vw; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5vw 4vw; }
+.tech .t { font-size: 1.8vw; font-weight: 700; margin-bottom: 0.5vw; }
+.tech .d { font-size: 1.45vw; line-height: 1.5; color: var(--ink-faded); }
+.shot { border: var(--border-width) solid var(--ink); display: block; }
+.shotwrap { margin-top: 2.5vw; display: flex; gap: 3vw; align-items: flex-start; }
+.shotwrap figure { flex: 1; margin: 0; }
+.shotwrap figcaption, figcaption {
+  font-family: 'Times New Roman', Times, serif; font-style: italic;
+  color: var(--ink-faded); font-size: 1.4vw; margin-top: 0.8vw;
+}
+.counter {
+  position: fixed; bottom: 1.2vw; right: 1.6vw; z-index: 10;
+  font-family: 'Courier New', Courier, monospace; font-size: 0.9vw; color: #8a8a8a;
+}
+</style>
+</head>
+<body>
+
+<!-- 1 · title -->
+<section class="slide active">
+  <div class="hero" style="font-size: 7.5vw;"><b>the pass</b> <span class="serif" style="font-size: 4.2vw;">v.01</span></div>
+  <div class="sub" style="font-size: 2.4vw; max-width: 74vw;">
+    A line check for a hospitality operator's Xero books.
+  </div>
+  <div class="footer"><span>Xero App &amp; Agent Hackathon</span><span>London · July 2026</span></div>
+</section>
+
+<!-- 2 · why -->
+<section class="slide">
+  <div class="kicker">Why</div>
+  <div class="hero">Hospitality runs on Xero.<br>
+    <span class="serif">Owners see a fraction of what their data knows.</span>
+  </div>
+  <div class="sub">The accountant files. The reports go unread.</div>
+  <div class="footer"><span>the pass</span><span>01</span></div>
+</section>
+
+<!-- 3 · the idea -->
+<section class="slide">
+  <div class="kicker">The idea</div>
+  <div class="hero">Your data holds the answers.<br>
+    <span class="serif">No one is watching it. Now something is.</span>
+  </div>
+  <div class="sub">Constant oversight of your books — an LLM you can talk to about the
+    patterns in your business. Yours first. Your accountant's if you want.</div>
+  <div class="footer"><span>the pass</span><span>02</span></div>
+</section>
+
+<!-- 4 · the magic -->
+<section class="slide">
+  <div class="kicker">The magic</div>
+  <div class="hero" style="font-size: 4vw;">An accountant checks what you ask.<br>
+    <span class="serif">This checks everything.</span>
+  </div>
+  <div class="sub" style="max-width: 74vw; font-size: 2.1vw;">
+    Wages creeping ahead of sales. Fees doubling, slowly. A big regular gone quiet.<br><br>
+    Every account, every ratio, three years deep — on every scan.
+  </div>
+  <div class="footer"><span>the pass</span><span>03</span></div>
+</section>
+
+<!-- 5 · the product -->
+<section class="slide" style="justify-content: flex-start; padding-top: 4vw;">
+  <div class="kicker">The product</div>
+  <figure style="margin: 0; align-self: center; text-align: center;">
+    <img class="shot" src="video/public/01_overview.png" alt="The Pass owner dashboard"
+      style="width: auto; max-height: 66vh; margin: 0 auto;">
+    <figcaption>Mission control. Each part of the business, checked, with a status.</figcaption>
+  </figure>
+  <div class="footer"><span>the pass</span><span>04</span></div>
+</section>
+
+<!-- 6 · live demo -->
+<section class="slide">
+  <div class="kicker">Live</div>
+  <div class="hero" style="font-size: 3.6vw;"><b>Watch it run.</b></div>
+  <div style="margin-top: 2vw; border: var(--border-width) solid var(--ink); background: #0f0f0f; max-width: 74vw;">
+    <div style="padding: 0.8vw 1.4vw; border-bottom: 1px solid #333; font-family: 'Courier New', Courier, monospace; font-size: 1vw; color: #8a8a8a;">
+      the-pass — xero-sync — zsh
+    </div>
+    <div style="padding: 1.4vw 1.6vw; font-family: 'Courier New', Courier, monospace; font-size: 1.25vw; line-height: 1.75; color: #b8e0b8;">
+      <span style="color: #8a8a8a;">$</span> python3 detect.py<br>
+      Pulled 477 bank transactions from Xero<br>
+      duplicate_payment detector &rarr; 1 match, zurich insurance<br>
+      variance detector &rarr; 3-month trailing avg, 10 accounts scanned<br>
+      drift detector &rarr; 6-month baseline, bank fees +129%<br>
+      ratio_anomaly detector &rarr; wages/sales, card-fee/sales, comps/sales<br>
+      aged receivables &rarr; 2 overdue · customer churn &rarr; 1 gone quiet<br>
+      <span style="color: #e6dfd0;">84 findings written to findings.json</span>
+    </div>
+  </div>
+  <div class="sub" style="margin-top: 1.4vw; max-width: 80vw;">Live Xero, from scratch — then ask it anything.</div>
+  <div class="footer"><span>the pass</span><span>05</span></div>
+</section>
+
+<!-- 7 · what it caught -->
+<section class="slide">
+  <div class="kicker">What it caught</div>
+  <div class="finding">
+    <div class="tag">High</div>
+    <div class="txt">Zurich Insurance, paid twice — <b>£1,800</b> on 10 March, again on the 13th.</div>
+  </div>
+  <div class="finding">
+    <div class="tag">Ratio</div>
+    <div class="txt">Wages hit <b>33%</b> of sales. Usual: 26%. The pound amounts looked fine.</div>
+  </div>
+  <div class="finding">
+    <div class="tag">Drift</div>
+    <div class="txt">Bank fees crept <b>£127 to £291</b> in six months. No single month rang an alarm.</div>
+  </div>
+  <div class="finding">
+    <div class="tag">Churn</div>
+    <div class="txt">Borough Films: six bookings near <b>£3,000</b> each — then 418 days of silence.</div>
+  </div>
+  <div class="sub" style="margin-top: 2vw;"><span class="mono">84 findings · 36 months · one small tavern</span></div>
+  <div class="footer"><span>the pass</span><span>06</span></div>
+</section>
+
+<!-- 8 · proof -->
+<section class="slide" style="justify-content: flex-start; padding-top: 4vw;">
+  <div class="kicker">Proof, not promises</div>
+  <div class="shotwrap">
+    <figure>
+      <img class="shot" src="video/public/xero_real_zurich.png" alt="The duplicate Zurich payments in the real Xero UI" style="width: 100%;">
+      <figcaption>The double payment, in Xero itself. Every transaction here came through the API.</figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="video/public/07_chase_draft.png" alt="Drafted chase email in The Pass" style="width: 100%;">
+      <figcaption>The chase email, already written.</figcaption>
+    </figure>
+  </div>
+  <div class="footer"><span>the pass</span><span>07</span></div>
+</section>
+
+<!-- 9 · what we built (architecture) -->
+<section class="slide">
+  <div class="kicker">What we built</div>
+  <svg style="margin-top: 1.5vw; width: 100%;" viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bx { fill: none; stroke: #1a1816; stroke-width: 2; }
+      .bxfill { fill: #d4cbb8; stroke: #1a1816; stroke-width: 2; }
+      .t { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #1a1816; }
+      .tb { font-weight: 700; }
+      .ts { fill: #4a4742; }
+      .tm { font-family: 'Courier New', Courier, monospace; fill: #4a4742; }
+      .ar { stroke: #1a1816; stroke-width: 2; fill: none; marker-end: url(#ah); }
+    </style>
+    <defs>
+      <marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L8,3 L0,6" fill="none" stroke="#1a1816" stroke-width="1.5"/>
+      </marker>
+    </defs>
+
+    <!-- Xero -->
+    <rect class="bx" x="20" y="90" width="302" height="240"/>
+    <text class="t tb" x="40" y="135" font-size="28">Xero</text>
+    <text class="t ts" x="40" y="180" font-size="19">Accounting API — 8 endpoints</text>
+    <text class="t ts" x="40" y="212" font-size="19">Remote MCP server</text>
+    <text class="t ts" x="40" y="244" font-size="19">Signed webhooks</text>
+    <text class="t ts" x="40" y="300" font-size="19">OAuth2 PKCE</text>
+
+    <!-- detect -->
+    <line class="ar" x1="322" y1="180" x2="368" y2="180"/>
+    <rect class="bxfill" x="373" y="90" width="262" height="180"/>
+    <text class="t tb" x="393" y="135" font-size="26">detect.py</text>
+    <text class="t" x="393" y="175" font-size="20">5 detectors · 36 months</text>
+    <text class="t ts" x="393" y="230" font-size="19">No LLM in this loop.</text>
+    <text class="t ts" x="393" y="256" font-size="19">It cannot hallucinate.</text>
+
+    <!-- findings -->
+    <line class="ar" x1="635" y1="180" x2="720" y2="180"/>
+    <rect class="bx" x="725" y="135" width="200" height="90"/>
+    <text class="tm" x="748" y="175" font-size="20">findings.json</text>
+    <text class="tm" x="748" y="204" font-size="17">84 findings</text>
+
+    <!-- reports -->
+    <line class="ar" x1="925" y1="160" x2="1010" y2="120"/>
+    <line class="ar" x1="925" y1="200" x2="1010" y2="240"/>
+    <rect class="bx" x="1015" y="72" width="172" height="86"/>
+    <text class="t tb" x="1035" y="108" font-size="19">Owner report</text>
+    <text class="t ts" x="1035" y="136" font-size="16">mission control</text>
+    <rect class="bx" x="1015" y="198" width="172" height="86"/>
+    <text class="t tb" x="1035" y="234" font-size="19">Accountant</text>
+    <text class="t ts" x="1035" y="262" font-size="16">action list</text>
+
+    <!-- Claude -->
+    <rect class="bx" x="465" y="330" width="380" height="120" stroke-dasharray="7 5"/>
+    <text class="t tb" x="485" y="370" font-size="23">Claude — language layer</text>
+    <text class="t ts" x="485" y="402" font-size="18">narrative · drafted emails · live agent</text>
+    <line class="ar" x1="845" y1="360" x2="1012" y2="272"/>
+    <line class="ar" x1="655" y1="330" x2="710" y2="230"/>
+    <line class="ar" x1="465" y1="392" x2="150" y2="336"/>
+    <text class="t ts" x="195" y="392" font-size="17">the agent calls Xero live</text>
+  </svg>
+  <div class="footer"><span>the pass</span><span>08</span></div>
+</section>
+
+<!-- 10 · why trust it -->
+<section class="slide">
+  <div class="kicker">Why trust it</div>
+  <div class="hero" style="font-size: 3.4vw;">Deterministic where money demands accuracy.<br>
+    <span class="serif">AI where language beats arithmetic.</span><br>
+    It cannot hallucinate a finding.</div>
+  <div class="techlist">
+    <div class="tech">
+      <div class="t">Accounting API — 8 endpoints</div>
+      <div class="d">Organisation, Accounts, Contacts, BankTransactions, Invoices,
+        P&amp;L, Aged Payables, Aged Receivables</div>
+    </div>
+    <div class="tech">
+      <div class="t">Remote MCP Server</div>
+      <div class="d">Full handshake against builders.xero.com, live</div>
+    </div>
+    <div class="tech">
+      <div class="t">OAuth2 PKCE</div>
+      <div class="d">Refresh + RFC 7009 revocation</div>
+    </div>
+    <div class="tech">
+      <div class="t">Signed webhooks</div>
+      <div class="d">HMAC-SHA256, tested — tampered payloads rejected</div>
+    </div>
+  </div>
+  <div class="footer"><span>the pass</span><span>09</span></div>
+</section>
+
+<!-- 11 · where it grows -->
+<section class="slide">
+  <div class="kicker">Where it grows</div>
+  <div class="hero" style="font-size: 3.8vw;">
+    Webhooks — <span class="serif">catch it the day it happens.</span><br><br>
+    Multi-org — <span class="serif">one owner, ten sites, one report.</span><br><br>
+    Payments data — <span class="serif">act on cash flow, not just see it.</span>
+  </div>
+  <div class="footer"><span>the pass</span><span>10</span></div>
+</section>
+
+<!-- 12 · close -->
+<section class="slide">
+  <div class="hero">Real oversight.<br>More value from Xero.<br>
+    <span class="serif">More profit.</span></div>
+  <div class="sub" style="margin-top: 4vw;">
+    <a class="mono" href="https://open-sandal-rkdw.here.now" target="_blank" rel="noopener">open-sandal-rkdw.here.now</a> — the real report, live now<br>
+    <b style="color: var(--ink);">the pass</b> <span class="serif">v.01</span>
+  </div>
+  <div class="footer"><span>Xero App &amp; Agent Hackathon</span><span>London · July 2026</span></div>
+</section>
+
+<div class="counter" id="counter">1 / 12</div>
+
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+let i = 0;
+function show(n) {
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s, j) => s.classList.toggle('active', j === i));
+  document.getElementById('counter').textContent = (i + 1) + ' / ' + slides.length;
+}
+addEventListener('keydown', e => {
+  if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) show(i + 1);
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+});
+addEventListener('click', e => {
+  if (e.target.closest('a')) return;
+  show(i + (e.clientX > innerWidth / 2 ? 1 : -1));
+});
+</script>
+</body>
+</html>

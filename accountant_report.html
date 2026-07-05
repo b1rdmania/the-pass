@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reconciliation Review — Hackathon Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html { color-scheme: light; background: #ffffff; }
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 900px; margin: 0 auto; padding: 3rem 2rem; color: #1a1a1a; line-height: 1.5; background: #ffffff; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  .meta { color: #555; font-size: 0.9rem; margin-bottom: 2rem; font-family: Arial, sans-serif; }
+  .summary { background: #f4f4f2; border: 1px solid #ccc; padding: 1rem 1.5rem; margin-bottom: 2.5rem; font-family: Arial, sans-serif; font-size: 0.95rem; }
+  section { margin-bottom: 2.5rem; }
+  h2 { font-size: 1.15rem; border-bottom: 2px solid #1a1a1a; padding-bottom: 0.3rem; margin-bottom: 0.4rem; font-family: Arial, sans-serif; }
+  .count { color: #777; font-weight: normal; }
+  .note { font-style: italic; color: #555; font-size: 0.9rem; margin-bottom: 0.8rem; font-family: Arial, sans-serif; }
+  table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid #ddd; vertical-align: top; }
+  th { background: #eee; font-weight: 700; }
+  a { color: #1a4b7a; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.8rem; color: #777; font-family: Arial, sans-serif; }
+
+  .report-page { animation: pageIn 0.3s ease-out; min-height: 40vh; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .pager {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid #ccc;
+    font-family: Arial, sans-serif; font-size: 0.9rem;
+  }
+  .pager button {
+    font-family: Arial, sans-serif; font-size: 0.9rem; padding: 0.5rem 1.1rem;
+    border: 1px solid #1a1a1a; background: #fff; color: #1a1a1a; cursor: pointer;
+  }
+  .pager button:disabled { opacity: 0.3; cursor: default; }
+  .pager button:not(:disabled):hover { background: #1a1a1a; color: #fff; }
+  #page-indicator { color: #555; }
+</style>
+</head>
+<body>
+  <div class="report-page" data-page="0" style="display:block;">
+  <h1>Reconciliation Review — Hackathon Test</h1>
+  <div class="meta">Prepared by The Pass · 2026-07-04 · 36-month period reviewed</div>
+  <div class="summary">
+    <strong>84</strong> items flagged for review across 6 categories,
+    <strong>£71,914.01</strong> aggregate value referenced in this review (includes both
+    confirmed and monitor-tier items — see individual severity ratings; not all items represent an
+    error or loss, some are statistical deviations worth a second look during your normal review cycle).
+  </div>
+  <p class="note" style="margin-top:2rem;">Use next/previous below to work through each category in turn.</p>
+</div><div class="report-page" data-page="1" style="display:none;">
+    <section>
+      <h2>Requires reclassification <span class="count">(1)</span></h2>
+      <p class="note">Transaction sitting in an account code with no other history this period - confirm correct coding.</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>novel_account_activity</td>
+          <td>medium</td>
+          <td>Repairs & Maintenance almost never has activity, but £1,850.00 was coded there in 2025-05 - worth checking it's not miscoded.</td>
+          <td>£1,850.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5002f0a6-83ec-4b9e-b648-596ab11a53d5" target="_blank">transaction &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div><div class="report-page" data-page="2" style="display:none;">
+    <section>
+      <h2>Requires verification / possible reversal <span class="count">(1)</span></h2>
+      <p class="note">Two payments to the same payee, same amount, within 14 days - confirm not a duplicate before next reconciliation.</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>duplicate_payment</td>
+          <td>high</td>
+          <td>Zurich Insurance paid twice: £1,800.00 on 2026-03-10 and again on 2026-03-13, 3 days apart.</td>
+          <td>£1,800.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D874b29cf-3cb6-42ed-9d10-9be3be01e2b0" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db6ffe909-319c-403b-b327-cab0f77939b9" target="_blank">transaction &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div><div class="report-page" data-page="3" style="display:none;">
+    <section>
+      <h2>Requires collection action (receivables) <span class="count">(2)</span></h2>
+      <p class="note">Customer invoice overdue - action per credit control policy.</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>aged_receivable</td>
+          <td>high</td>
+          <td>The Camden Collective - Corporate Events owes £3,250.00, 41 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</td>
+          <td>£3,250.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D5236143a-1f23-4551-9a20-ce6095ce2092" target="_blank">invoice &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>aged_receivable</td>
+          <td>high</td>
+          <td>The Camden Collective - Corporate Events owes £1,180.00, 78 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off.</td>
+          <td>£1,180.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D79ffa19d-549e-4dde-8cde-4b76aea664e4" target="_blank">invoice &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div><div class="report-page" data-page="4" style="display:none;">
+    <section>
+      <h2>Requires payment / dispute resolution (payables) <span class="count">(1)</span></h2>
+      <p class="note">Supplier bill unpaid past normal terms - confirm status (paid outside system, disputed, or genuinely outstanding).</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>aged_payable</td>
+          <td>high</td>
+          <td>Bright Electric Co: £2,140.55 unpaid, 993 days overdue (due 2023-10-15).</td>
+          <td>£2,140.55</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D2dac9fe0-1f3b-4b99-80c4-fc32c9a5c7ee" target="_blank">invoice &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div><div class="report-page" data-page="5" style="display:none;">
+    <section>
+      <h2>Cost trend review <span class="count">(78)</span></h2>
+      <p class="note">Statistical deviation from trailing average - not necessarily an error, but worth a look during review.</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Bank Fees in 2026-03: £189.14 vs trailing 3-month average £134.51 (+41%).</td>
+          <td>£54.63</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D12505525-7fdc-4e1e-88c0-6810291b4a3e" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Bank Fees in 2026-04: £232.86 vs trailing 3-month average £155.12 (+50%).</td>
+          <td>£77.74</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D86bad808-38f7-41af-96e4-6cdc4bc584b7" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Card Processing Fees in 2025-12: £948.93 vs trailing 3-month average £376.95 (+152%).</td>
+          <td>£571.98</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De2206650-88bd-4ebf-b71d-9a5881a418d0" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Card Processing Fees in 2026-03: £392.38 vs trailing 3-month average £777.68 (-50%).</td>
+          <td>£385.30</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db4df8323-b192-42dd-b6d3-67f672b1307b" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2024-08: £222.71 vs trailing 3-month average £415.96 (-46%).</td>
+          <td>£193.25</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D412d6621-2b81-44e2-8b7d-c68ce4d43359" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2025-04: £458.17 vs trailing 3-month average £269.99 (+70%).</td>
+          <td>£188.18</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc5bc7ec6-ec50-4a21-ae01-4b48356a9cc3" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2025-12: £535.78 vs trailing 3-month average £341.41 (+57%).</td>
+          <td>£194.37</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db5b0c22e-07c4-48f2-8d9c-adea264b6f84" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2026-01: £1,424.99 vs trailing 3-month average £408.99 (+248%).</td>
+          <td>£1,016.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74fc9da0-abfc-446d-8fac-d4102fafae42" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2026-02: £255.79 vs trailing 3-month average £764.38 (-67%).</td>
+          <td>£508.59</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294f5998-5be9-425b-9321-129e98710fb8" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2026-03: £366.51 vs trailing 3-month average £738.85 (-50%).</td>
+          <td>£372.34</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De37ef399-3e5d-4f7f-80d8-6c278fb348f9" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Comps & Complimentary in 2026-04: £260.95 vs trailing 3-month average £682.43 (-62%).</td>
+          <td>£421.48</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D682beeed-eb23-4351-b6cb-5eed47ca7818" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>high</td>
+          <td>Insurance in 2026-03: £3,600.00 vs trailing 3-month average £1,800.00 (+100%).</td>
+          <td>£1,800.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D874b29cf-3cb6-42ed-9d10-9be3be01e2b0" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db6ffe909-319c-403b-b327-cab0f77939b9" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Card fee rate (of sales) in 2025-12: 1.6% vs usual 0.9% (+88%), even though the raw pound amounts alone might look fine.</td>
+          <td>£444.85</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De2206650-88bd-4ebf-b71d-9a5881a418d0" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Card fee rate (of sales) in 2026-01: 1.7% vs usual 1.1% (+53%), even though the raw pound amounts alone might look fine.</td>
+          <td>£240.90</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db148417f-bd42-460a-ad6e-813d44675dca" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Card fee rate (of sales) in 2026-03: 0.8% vs usual 1.7% (-53%), even though the raw pound amounts alone might look fine.</td>
+          <td>£446.66</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db4df8323-b192-42dd-b6d3-67f672b1307b" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Comps rate (of sales) in 2025-04: 0.9% vs usual 0.6% (+54%), even though the raw pound amounts alone might look fine.</td>
+          <td>£160.03</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc5bc7ec6-ec50-4a21-ae01-4b48356a9cc3" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Comps rate (of sales) in 2026-01: 3.4% vs usual 0.8% (+314%), even though the raw pound amounts alone might look fine.</td>
+          <td>£1,080.81</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74fc9da0-abfc-446d-8fac-d4102fafae42" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Comps rate (of sales) in 2026-02: 0.7% vs usual 1.7% (-62%), even though the raw pound amounts alone might look fine.</td>
+          <td>£410.22</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294f5998-5be9-425b-9321-129e98710fb8" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Comps rate (of sales) in 2026-03: 0.7% vs usual 1.7% (-56%), even though the raw pound amounts alone might look fine.</td>
+          <td>£463.30</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De37ef399-3e5d-4f7f-80d8-6c278fb348f9" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>high</td>
+          <td>Comps rate (of sales) in 2026-04: 0.6% vs usual 1.6% (-65%), even though the raw pound amounts alone might look fine.</td>
+          <td>£474.32</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D682beeed-eb23-4351-b6cb-5eed47ca7818" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Cost of Goods Sold in 2024-08: £10,558.16 vs trailing 3-month average £13,939.60 (-24%).</td>
+          <td>£3,381.44</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd5538b50-0d48-4920-a626-3901dcb79d8d" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ece896c-5de3-4c86-b8ed-755d48bc218e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8c08702e-3686-4a07-8540-8cf42e2da9df" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D12318c46-58f1-47d7-ad94-75d365f23cbc" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5afd0dfd-85d7-4786-8ec3-a2e52df160da" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Cost of Goods Sold in 2025-07: £16,387.25 vs trailing 3-month average £13,311.47 (+23%).</td>
+          <td>£3,075.78</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De51b49fb-b370-404e-8c98-6f4c8d198cfc" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8b0410a0-d489-467d-b5a9-e22a1b53ec89" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd20ce146-2769-43f8-bcd5-8b5dd7606f8e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5f5fb98f-8727-4f19-90a1-075755eab357" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd3bbe199-0cb6-4860-9e4f-2ee5607b6e7c" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Cost of Goods Sold in 2025-10: £11,997.31 vs trailing 3-month average £15,195.97 (-21%).</td>
+          <td>£3,198.66</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd71355de-e7c8-4514-8027-4444dcda578e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D73cea597-197f-4587-a365-fd7f2806629e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dcea90073-e44d-4ae1-a06d-62ef6ceef63b" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D699677c1-8637-4a07-bfe7-4c54e69ad3bb" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dce710ce3-91fd-4d09-9f90-40228bda5dfe" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Cost of Goods Sold in 2025-12: £16,816.77 vs trailing 3-month average £12,499.75 (+35%).</td>
+          <td>£4,317.02</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc4f0c13d-0cbe-49cb-841c-2148e5f890e2" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dee2ca1c0-8eb4-4838-8d81-cd4cbaf7f96f" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da21c8b5c-30c3-49b7-a04c-fc9254eeb23c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2eff2009-b11b-48f2-af85-2593654ab611" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db2961a0e-f9ef-41c1-83ad-d8e6015af5d5" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Wet Cost of Sales (drinks) in 2024-08: £3,089.53 vs trailing 3-month average £4,120.04 (-25%).</td>
+          <td>£1,030.51</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd5538b50-0d48-4920-a626-3901dcb79d8d" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Wet Cost of Sales (drinks) in 2025-07: £4,733.32 vs trailing 3-month average £3,787.02 (+25%).</td>
+          <td>£946.30</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De51b49fb-b370-404e-8c98-6f4c8d198cfc" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Wet Cost of Sales (drinks) in 2025-10: £3,180.97 vs trailing 3-month average £4,354.79 (-27%).</td>
+          <td>£1,173.82</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd71355de-e7c8-4514-8027-4444dcda578e" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Wet Cost of Sales (drinks) in 2025-12: £4,765.56 vs trailing 3-month average £3,572.48 (+33%).</td>
+          <td>£1,193.08</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc4f0c13d-0cbe-49cb-841c-2148e5f890e2" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Wet Cost of Sales (drinks) in 2026-02: £3,124.97 vs trailing 3-month average £4,010.36 (-22%).</td>
+          <td>£885.39</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc99f5729-5009-46b5-bc67-1f7d21d5b260" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Dry Cost of Sales (food) in 2023-12: £11,292.82 vs trailing 3-month average £9,348.27 (+21%).</td>
+          <td>£1,944.55</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Df9b34634-c920-4ac1-9aa8-8868d6174d05" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Daeb5d32b-d4c3-414a-810e-f05e7487367b" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1674d8ec-49cc-4519-ada9-e9da50b0563c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D728f0c31-bd16-4dc3-a37d-045947d27528" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Dry Cost of Sales (food) in 2024-01: £7,691.84 vs trailing 3-month average £9,810.34 (-22%).</td>
+          <td>£2,118.50</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc2a0f135-22d9-4cc7-8625-3bbe74e90a2c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db3edc258-e455-4f85-92b2-c5f772984b49" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D42d5058b-a82e-48ee-868e-1796ab4dc907" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D3768f063-3d28-4076-b344-e9acc32f14e5" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Dry Cost of Sales (food) in 2024-08: £7,468.63 vs trailing 3-month average £9,819.56 (-24%).</td>
+          <td>£2,350.93</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ece896c-5de3-4c86-b8ed-755d48bc218e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8c08702e-3686-4a07-8540-8cf42e2da9df" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D12318c46-58f1-47d7-ad94-75d365f23cbc" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5afd0dfd-85d7-4786-8ec3-a2e52df160da" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Dry Cost of Sales (food) in 2025-07: £11,653.93 vs trailing 3-month average £9,524.45 (+22%).</td>
+          <td>£2,129.48</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8b0410a0-d489-467d-b5a9-e22a1b53ec89" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd20ce146-2769-43f8-bcd5-8b5dd7606f8e" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5f5fb98f-8727-4f19-90a1-075755eab357" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd3bbe199-0cb6-4860-9e4f-2ee5607b6e7c" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Dry Cost of Sales (food) in 2025-12: £12,051.21 vs trailing 3-month average £8,927.27 (+35%).</td>
+          <td>£3,123.94</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dee2ca1c0-8eb4-4838-8d81-cd4cbaf7f96f" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da21c8b5c-30c3-49b7-a04c-fc9254eeb23c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2eff2009-b11b-48f2-af85-2593654ab611" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db2961a0e-f9ef-41c1-83ad-d8e6015af5d5" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Direct Wages in 2025-07: £14,807.01 vs trailing 3-month average £11,632.53 (+27%).</td>
+          <td>£3,174.48</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc557f22d-bd2c-4b0f-a5ca-e6cc5ad35e23" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Direct Wages in 2026-01: £10,491.03 vs trailing 3-month average £14,004.53 (-25%).</td>
+          <td>£3,513.50</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D11676623-0d33-4064-b77a-3692a1c90b35" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Bank Fees in 2026-02: £156.22 vs trailing 3-month average £128.18 (+22%).</td>
+          <td>£28.04</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Deff94a88-d31b-40ba-8341-7c7d5987993f" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Bank Fees in 2026-05: £260.63 vs trailing 3-month average £192.74 (+35%).</td>
+          <td>£67.89</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dad01a869-f6e9-49f9-9b9d-e154dbd94d5a" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Bank Fees in 2026-06: £291.01 vs trailing 3-month average £227.54 (+28%).</td>
+          <td>£63.47</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da493f990-4fae-4d72-ab77-5bede9386745" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>drift</td>
+          <td>medium</td>
+          <td>Bank Fees has crept up £127.32 (2025-12) to £291.01 (2026-06), a slow +129% rise a monthly snapshot wouldn't catch.</td>
+          <td>£493.26</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da493f990-4fae-4d72-ab77-5bede9386745" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6a227a14-bd4c-4f72-8307-287bc60a9c32" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Card Processing Fees in 2024-08: £320.08 vs trailing 3-month average £429.81 (-26%).</td>
+          <td>£109.73</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db67ae7fd-f002-4a8b-be1b-620d6d46d9c2" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Card Processing Fees in 2026-01: £694.68 vs trailing 3-month average £558.67 (+24%).</td>
+          <td>£136.01</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db148417f-bd42-460a-ad6e-813d44675dca" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Card Processing Fees in 2026-04: £369.24 vs trailing 3-month average £592.17 (-38%).</td>
+          <td>£222.93</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D312965ab-99f1-444f-a7fe-02e64bd1d68d" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Card Processing Fees in 2026-06: £469.08 vs trailing 3-month average £385.33 (+22%).</td>
+          <td>£83.75</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Def34443e-0f70-4801-86ff-0ee69eeb91fa" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2023-10: £269.22 vs trailing 3-month average £356.07 (-24%).</td>
+          <td>£86.85</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De74b683f-f46a-4fbc-bd57-9bac24c0bc77" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-01: £240.02 vs trailing 3-month average £323.47 (-26%).</td>
+          <td>£83.45</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74e21bc1-b651-4240-a89e-00f507cb8671" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-02: £407.86 vs trailing 3-month average £313.74 (+30%).</td>
+          <td>£94.12</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D87852fbd-888f-4281-b378-c676beb11c06" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-04: £431.82 vs trailing 3-month average £326.14 (+32%).</td>
+          <td>£105.68</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dfe3f6d7c-7b0e-407a-87d8-41dd6a8b75da" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-07: £505.46 vs trailing 3-month average £391.41 (+29%).</td>
+          <td>£114.05</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6d051e96-5d19-4746-a901-70ff097ce18b" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-09: £288.75 vs trailing 3-month average £381.66 (-24%).</td>
+          <td>£92.91</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1336f31a-3bc7-4739-bb0a-fe37678c451a" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-10: £416.25 vs trailing 3-month average £338.97 (+23%).</td>
+          <td>£77.28</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D984a8b00-e3b4-43ed-91e6-2969416d4dc6" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2024-12: £446.95 vs trailing 3-month average £326.41 (+37%).</td>
+          <td>£120.54</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2025-01: £268.63 vs trailing 3-month average £379.14 (-29%).</td>
+          <td>£110.51</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D94fc654b-e244-4773-8aea-ed0a121ee6db" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2025-02: £225.40 vs trailing 3-month average £329.94 (-32%).</td>
+          <td>£104.54</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D348db83f-744c-4f06-8686-65879bdc111c" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2025-06: £293.54 vs trailing 3-month average £383.92 (-24%).</td>
+          <td>£90.38</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db218aae0-e386-4655-8d10-04e8ca50222b" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2026-05: £411.50 vs trailing 3-month average £294.42 (+40%).</td>
+          <td>£117.08</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D70f29735-75b3-481c-9e57-bd9b755c66a4" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Comps & Complimentary in 2026-06: £454.17 vs trailing 3-month average £346.32 (+31%).</td>
+          <td>£107.85</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc93b2b51-bad3-481d-9b11-925e9354cb23" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>variance</td>
+          <td>medium</td>
+          <td>Insurance in 2026-06: £1,800.00 vs trailing 3-month average £2,400.00 (-25%).</td>
+          <td>£600.00</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D94468391-adce-4ff9-90fc-cde1c5bf6826" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Wages-to-sales ratio in 2024-08: 33.1% vs usual 26.4% (+26%), even though the raw pound amounts alone might look fine.</td>
+          <td>£2,408.51</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd47ff2b9-dab8-4aed-b4aa-ca466966ed97" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Wages-to-sales ratio in 2025-10: 37.0% vs usual 27.3% (+36%), even though the raw pound amounts alone might look fine.</td>
+          <td>£4,212.03</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Df319b135-cbee-44bd-9277-c3ccef890ef8" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Card fee rate (of sales) in 2026-02: 1.8% vs usual 1.4% (+29%), even though the raw pound amounts alone might look fine.</td>
+          <td>£155.54</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd26f1310-723b-44b6-b504-9487982f392e" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Card fee rate (of sales) in 2026-04: 0.8% vs usual 1.4% (-43%), even though the raw pound amounts alone might look fine.</td>
+          <td>£274.05</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D312965ab-99f1-444f-a7fe-02e64bd1d68d" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Card fee rate (of sales) in 2026-05: 0.9% vs usual 1.1% (-22%), even though the raw pound amounts alone might look fine.</td>
+          <td>£110.34</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db3940fcb-4607-4faf-8ad4-3d53a0384672" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2023-11: 0.9% vs usual 0.7% (+26%), even though the raw pound amounts alone might look fine.</td>
+          <td>£78.03</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4cbc1248-3860-4d85-931c-3fa5c08a1072" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2023-12: 0.6% vs usual 0.7% (-20%), even though the raw pound amounts alone might look fine.</td>
+          <td>£78.92</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D127dcea5-6462-4080-8059-bb86a8b80307" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-02: 1.0% vs usual 0.7% (+44%), even though the raw pound amounts alone might look fine.</td>
+          <td>£123.84</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D87852fbd-888f-4281-b378-c676beb11c06" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-04: 0.9% vs usual 0.8% (+21%), even though the raw pound amounts alone might look fine.</td>
+          <td>£73.83</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dfe3f6d7c-7b0e-407a-87d8-41dd6a8b75da" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-07: 1.0% vs usual 0.9% (+20%), even though the raw pound amounts alone might look fine.</td>
+          <td>£82.72</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6d051e96-5d19-4746-a901-70ff097ce18b" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-08: 0.6% vs usual 0.9% (-30%), even though the raw pound amounts alone might look fine.</td>
+          <td>£96.95</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D412d6621-2b81-44e2-8b7d-c68ce4d43359" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-09: 0.6% vs usual 0.8% (-30%), even though the raw pound amounts alone might look fine.</td>
+          <td>£122.94</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1336f31a-3bc7-4739-bb0a-fe37678c451a" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-10: 0.9% vs usual 0.7% (+19%), even though the raw pound amounts alone might look fine.</td>
+          <td>£67.23</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D984a8b00-e3b4-43ed-91e6-2969416d4dc6" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-11: 0.6% vs usual 0.7% (-19%), even though the raw pound amounts alone might look fine.</td>
+          <td>£62.37</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De6d20bb5-7e9d-4b41-a662-4989580ad6dc" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2024-12: 0.9% vs usual 0.7% (+25%), even though the raw pound amounts alone might look fine.</td>
+          <td>£89.51</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2025-01: 0.6% vs usual 0.8% (-25%), even though the raw pound amounts alone might look fine.</td>
+          <td>£89.66</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D94fc654b-e244-4773-8aea-ed0a121ee6db" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2025-09: 0.8% vs usual 0.6% (+22%), even though the raw pound amounts alone might look fine.</td>
+          <td>£59.99</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4d2e8acb-f6f2-4f2d-a08b-73f091aa6302" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2025-10: 0.8% vs usual 0.7% (+18%), even though the raw pound amounts alone might look fine.</td>
+          <td>£56.01</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dae264a0e-ae31-4f9d-b67d-d29987c5b426" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2026-05: 0.9% vs usual 0.7% (+40%), even though the raw pound amounts alone might look fine.</td>
+          <td>£116.55</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D70f29735-75b3-481c-9e57-bd9b755c66a4" target="_blank">transaction &#8599;</a></td>
+        </tr>
+        <tr>
+          <td>ratio_anomaly</td>
+          <td>medium</td>
+          <td>Comps rate (of sales) in 2026-06: 0.9% vs usual 0.7% (+20%), even though the raw pound amounts alone might look fine.</td>
+          <td>£74.29</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc93b2b51-bad3-481d-9b11-925e9354cb23" target="_blank">transaction &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div><div class="report-page" data-page="6" style="display:none;">
+    <section>
+      <h2>Revenue / customer relationship flag (for controller awareness) <span class="count">(1)</span></h2>
+      <p class="note">Not a bookkeeping item - flagged for revenue forecasting and credit-control awareness.</p>
+      <table>
+        <thead><tr><th>Type</th><th>Severity</th><th>Detail</th><th>£ Impact</th><th>Xero record</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>customer_churn</td>
+          <td>high</td>
+          <td>Borough Films Ltd - Wrap Parties: 6 bookings averaging £3,087.50, then nothing for 417 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</td>
+          <td>£3,087.50</td>
+          <td><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ac11376-7a09-47dc-b95b-f731c81e31c6" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2cbb7d3d-f399-4741-a0de-d14bec17f251" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd45940b6-4d56-4397-97b9-5a071f78c2c8" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294a7f71-349b-4719-8595-41c2441a623c" target="_blank">transaction &#8599;</a> &middot; <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D0bcc205f-07c1-4d4c-8457-6b0522f2dfd6" target="_blank">transaction &#8599;</a></td>
+        </tr></tbody>
+      </table>
+    </section>
+    </div>
+
+  <div class="pager">
+    <button id="prev-btn" onclick="goToPage(currentPage - 1)">&larr; Previous</button>
+    <span id="page-indicator"></span>
+    <button id="next-btn" onclick="goToPage(currentPage + 1)">Next &rarr;</button>
+  </div>
+
+  <footer>
+    Methodology: deterministic detection over the Xero Accounting API (duplicate-payment matching,
+    3-month trailing-average variance, 6-month baseline drift, cross-account ratio analysis, aged
+    payables/receivables). Xero record links use the organisation's short-code redirect and open
+    directly into the live record. This document does not replace professional judgement or a full
+    audit - treat it as a triage list for your next reconciliation pass.
+  </footer>
+
+<script>
+  const totalPages = 7;
+  let currentPage = 0;
+
+  function goToPage(n) {
+    if (n < 0 || n >= totalPages) return;
+    document.querySelector(`.report-page[data-page="${currentPage}"]`).style.display = 'none';
+    currentPage = n;
+    const el = document.querySelector(`.report-page[data-page="${currentPage}"]`);
+    el.style.display = 'block';
+    el.style.animation = 'none';
+    void el.offsetWidth; // restart the fade-in animation each time
+    el.style.animation = 'pageIn 0.3s ease-out';
+    document.getElementById('prev-btn').disabled = currentPage === 0;
+    document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
+    document.getElementById('page-indicator').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
+    if (e.key === 'ArrowLeft') goToPage(currentPage - 1);
+  });
+
+  goToPage(0);
+</script>
+</body>
+</html>

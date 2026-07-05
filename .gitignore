@@ -1,0 +1,9 @@
+xero_tokens.json
+cert.pem
+key.pem
+__pycache__/
+*.pyc
+.herenow/
+.playwright-mcp/
+video/node_modules/
+video/out/

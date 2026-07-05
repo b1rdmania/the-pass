@@ -1,0 +1,1259 @@
+[
+  {
+    "type": "duplicate_payment",
+    "severity": "high",
+    "contact": "Zurich Insurance",
+    "amount": 1800.0,
+    "estimated_impact": 1800.0,
+    "dates": [
+      "2026-03-10",
+      "2026-03-13"
+    ],
+    "bank_transaction_ids": [
+      "874b29cf-3cb6-42ed-9d10-9be3be01e2b0",
+      "b6ffe909-319c-403b-b327-cab0f77939b9"
+    ],
+    "summary": "Zurich Insurance paid twice: \u00a31,800.00 on 2026-03-10 and again on 2026-03-13, 3 days apart."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "month": "2026-03",
+    "current": 189.14,
+    "trailing_avg": 134.51,
+    "deviation_pct": 40.6,
+    "estimated_impact": 54.63,
+    "bank_transaction_ids": [
+      "12505525-7fdc-4e1e-88c0-6810291b4a3e"
+    ],
+    "summary": "Bank Fees in 2026-03: \u00a3189.14 vs trailing 3-month average \u00a3134.51 (+41%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "month": "2026-04",
+    "current": 232.86,
+    "trailing_avg": 155.12,
+    "deviation_pct": 50.1,
+    "estimated_impact": 77.74,
+    "bank_transaction_ids": [
+      "86bad808-38f7-41af-96e4-6cdc4bc584b7"
+    ],
+    "summary": "Bank Fees in 2026-04: \u00a3232.86 vs trailing 3-month average \u00a3155.12 (+50%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2025-12",
+    "current": 948.93,
+    "trailing_avg": 376.95,
+    "deviation_pct": 151.7,
+    "estimated_impact": 571.98,
+    "bank_transaction_ids": [
+      "e2206650-88bd-4ebf-b71d-9a5881a418d0"
+    ],
+    "summary": "Card Processing Fees in 2025-12: \u00a3948.93 vs trailing 3-month average \u00a3376.95 (+152%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2026-03",
+    "current": 392.38,
+    "trailing_avg": 777.68,
+    "deviation_pct": -49.5,
+    "estimated_impact": 385.3,
+    "bank_transaction_ids": [
+      "b4df8323-b192-42dd-b6d3-67f672b1307b"
+    ],
+    "summary": "Card Processing Fees in 2026-03: \u00a3392.38 vs trailing 3-month average \u00a3777.68 (-50%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-08",
+    "current": 222.71,
+    "trailing_avg": 415.96,
+    "deviation_pct": -46.5,
+    "estimated_impact": 193.25,
+    "bank_transaction_ids": [
+      "412d6621-2b81-44e2-8b7d-c68ce4d43359"
+    ],
+    "summary": "Comps & Complimentary in 2024-08: \u00a3222.71 vs trailing 3-month average \u00a3415.96 (-46%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2025-04",
+    "current": 458.17,
+    "trailing_avg": 269.99,
+    "deviation_pct": 69.7,
+    "estimated_impact": 188.18,
+    "bank_transaction_ids": [
+      "c5bc7ec6-ec50-4a21-ae01-4b48356a9cc3"
+    ],
+    "summary": "Comps & Complimentary in 2025-04: \u00a3458.17 vs trailing 3-month average \u00a3269.99 (+70%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2025-12",
+    "current": 535.78,
+    "trailing_avg": 341.41,
+    "deviation_pct": 56.9,
+    "estimated_impact": 194.37,
+    "bank_transaction_ids": [
+      "b5b0c22e-07c4-48f2-8d9c-adea264b6f84"
+    ],
+    "summary": "Comps & Complimentary in 2025-12: \u00a3535.78 vs trailing 3-month average \u00a3341.41 (+57%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-01",
+    "current": 1424.99,
+    "trailing_avg": 408.99,
+    "deviation_pct": 248.4,
+    "estimated_impact": 1016.0,
+    "bank_transaction_ids": [
+      "74fc9da0-abfc-446d-8fac-d4102fafae42"
+    ],
+    "summary": "Comps & Complimentary in 2026-01: \u00a31,424.99 vs trailing 3-month average \u00a3408.99 (+248%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-02",
+    "current": 255.79,
+    "trailing_avg": 764.38,
+    "deviation_pct": -66.5,
+    "estimated_impact": 508.59,
+    "bank_transaction_ids": [
+      "294f5998-5be9-425b-9321-129e98710fb8"
+    ],
+    "summary": "Comps & Complimentary in 2026-02: \u00a3255.79 vs trailing 3-month average \u00a3764.38 (-67%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-03",
+    "current": 366.51,
+    "trailing_avg": 738.85,
+    "deviation_pct": -50.4,
+    "estimated_impact": 372.34,
+    "bank_transaction_ids": [
+      "e37ef399-3e5d-4f7f-80d8-6c278fb348f9"
+    ],
+    "summary": "Comps & Complimentary in 2026-03: \u00a3366.51 vs trailing 3-month average \u00a3738.85 (-50%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-04",
+    "current": 260.95,
+    "trailing_avg": 682.43,
+    "deviation_pct": -61.8,
+    "estimated_impact": 421.48,
+    "bank_transaction_ids": [
+      "682beeed-eb23-4351-b6cb-5eed47ca7818"
+    ],
+    "summary": "Comps & Complimentary in 2026-04: \u00a3260.95 vs trailing 3-month average \u00a3682.43 (-62%)."
+  },
+  {
+    "type": "variance",
+    "severity": "high",
+    "account_code": "433",
+    "account_name": "Insurance",
+    "month": "2026-03",
+    "current": 3600.0,
+    "trailing_avg": 1800.0,
+    "deviation_pct": 100.0,
+    "estimated_impact": 1800.0,
+    "bank_transaction_ids": [
+      "874b29cf-3cb6-42ed-9d10-9be3be01e2b0",
+      "b6ffe909-319c-403b-b327-cab0f77939b9"
+    ],
+    "summary": "Insurance in 2026-03: \u00a33,600.00 vs trailing 3-month average \u00a31,800.00 (+100%)."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Card fee rate (of sales)",
+    "month": "2025-12",
+    "current_ratio_pct": 1.63,
+    "trailing_avg_ratio_pct": 0.87,
+    "deviation_pct": 88.2,
+    "estimated_impact": 444.85,
+    "bank_transaction_ids": [
+      "e2206650-88bd-4ebf-b71d-9a5881a418d0"
+    ],
+    "summary": "Card fee rate (of sales) in 2025-12: 1.6% vs usual 0.9% (+88%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Card fee rate (of sales)",
+    "month": "2026-01",
+    "current_ratio_pct": 1.67,
+    "trailing_avg_ratio_pct": 1.09,
+    "deviation_pct": 53.1,
+    "estimated_impact": 240.9,
+    "bank_transaction_ids": [
+      "b148417f-bd42-460a-ad6e-813d44675dca"
+    ],
+    "summary": "Card fee rate (of sales) in 2026-01: 1.7% vs usual 1.1% (+53%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Card fee rate (of sales)",
+    "month": "2026-03",
+    "current_ratio_pct": 0.79,
+    "trailing_avg_ratio_pct": 1.69,
+    "deviation_pct": -53.2,
+    "estimated_impact": 446.66,
+    "bank_transaction_ids": [
+      "b4df8323-b192-42dd-b6d3-67f672b1307b"
+    ],
+    "summary": "Card fee rate (of sales) in 2026-03: 0.8% vs usual 1.7% (-53%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Comps rate (of sales)",
+    "month": "2025-04",
+    "current_ratio_pct": 0.9,
+    "trailing_avg_ratio_pct": 0.58,
+    "deviation_pct": 53.7,
+    "estimated_impact": 160.03,
+    "bank_transaction_ids": [
+      "c5bc7ec6-ec50-4a21-ae01-4b48356a9cc3"
+    ],
+    "summary": "Comps rate (of sales) in 2025-04: 0.9% vs usual 0.6% (+54%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Comps rate (of sales)",
+    "month": "2026-01",
+    "current_ratio_pct": 3.43,
+    "trailing_avg_ratio_pct": 0.83,
+    "deviation_pct": 314.0,
+    "estimated_impact": 1080.81,
+    "bank_transaction_ids": [
+      "74fc9da0-abfc-446d-8fac-d4102fafae42"
+    ],
+    "summary": "Comps rate (of sales) in 2026-01: 3.4% vs usual 0.8% (+314%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Comps rate (of sales)",
+    "month": "2026-02",
+    "current_ratio_pct": 0.65,
+    "trailing_avg_ratio_pct": 1.7,
+    "deviation_pct": -61.6,
+    "estimated_impact": 410.22,
+    "bank_transaction_ids": [
+      "294f5998-5be9-425b-9321-129e98710fb8"
+    ],
+    "summary": "Comps rate (of sales) in 2026-02: 0.7% vs usual 1.7% (-62%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Comps rate (of sales)",
+    "month": "2026-03",
+    "current_ratio_pct": 0.74,
+    "trailing_avg_ratio_pct": 1.67,
+    "deviation_pct": -55.8,
+    "estimated_impact": 463.3,
+    "bank_transaction_ids": [
+      "e37ef399-3e5d-4f7f-80d8-6c278fb348f9"
+    ],
+    "summary": "Comps rate (of sales) in 2026-03: 0.7% vs usual 1.7% (-56%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "high",
+    "label": "Comps rate (of sales)",
+    "month": "2026-04",
+    "current_ratio_pct": 0.57,
+    "trailing_avg_ratio_pct": 1.61,
+    "deviation_pct": -64.5,
+    "estimated_impact": 474.32,
+    "bank_transaction_ids": [
+      "682beeed-eb23-4351-b6cb-5eed47ca7818"
+    ],
+    "summary": "Comps rate (of sales) in 2026-04: 0.6% vs usual 1.6% (-65%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "aged_payable",
+    "severity": "high",
+    "contact": "Bright Electric Co",
+    "amount_due": 2140.55,
+    "estimated_impact": 2140.55,
+    "due_date": "2023-10-15",
+    "days_overdue": 994,
+    "invoice_id": "2dac9fe0-1f3b-4b99-80c4-fc32c9a5c7ee",
+    "summary": "Bright Electric Co: \u00a32,140.55 unpaid, 994 days overdue (due 2023-10-15)."
+  },
+  {
+    "type": "aged_receivable",
+    "severity": "high",
+    "contact": "The Camden Collective - Corporate Events",
+    "amount_due": 3250.0,
+    "estimated_impact": 3250.0,
+    "due_date": "2026-05-24",
+    "days_overdue": 42,
+    "invoice_id": "5236143a-1f23-4551-9a20-ce6095ce2092",
+    "summary": "The Camden Collective - Corporate Events owes \u00a33,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off."
+  },
+  {
+    "type": "aged_receivable",
+    "severity": "high",
+    "contact": "The Camden Collective - Corporate Events",
+    "amount_due": 1180.0,
+    "estimated_impact": 1180.0,
+    "due_date": "2026-04-17",
+    "days_overdue": 79,
+    "invoice_id": "79ffa19d-549e-4dde-8cde-4b76aea664e4",
+    "summary": "The Camden Collective - Corporate Events owes \u00a31,180.00, 79 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off."
+  },
+  {
+    "type": "customer_churn",
+    "severity": "high",
+    "contact": "Borough Films Ltd - Wrap Parties",
+    "avg_spend": 3087.5,
+    "n_historical_bookings": 6,
+    "days_since_last": 418,
+    "last_booking_date": "2025-05-13",
+    "estimated_impact": 3087.5,
+    "bank_transaction_ids": [
+      "6ac11376-7a09-47dc-b95b-f731c81e31c6",
+      "2cbb7d3d-f399-4741-a0de-d14bec17f251",
+      "d45940b6-4d56-4397-97b9-5a071f78c2c8",
+      "294a7f71-349b-4719-8595-41c2441a623c",
+      "0bcc205f-07c1-4d4c-8457-6b0522f2dfd6",
+      "26d520d7-4afa-4ecf-960d-e5105747dd8e"
+    ],
+    "summary": "Borough Films Ltd - Wrap Parties: 6 bookings averaging \u00a33,087.50, then nothing for 418 days (last booked 2025-05-13) - a high-value customer who's gone quiet."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "310",
+    "account_name": "Cost of Goods Sold",
+    "month": "2024-08",
+    "current": 10558.16,
+    "trailing_avg": 13939.6,
+    "deviation_pct": -24.3,
+    "estimated_impact": 3381.44,
+    "bank_transaction_ids": [
+      "d5538b50-0d48-4920-a626-3901dcb79d8d",
+      "6ece896c-5de3-4c86-b8ed-755d48bc218e",
+      "8c08702e-3686-4a07-8540-8cf42e2da9df",
+      "12318c46-58f1-47d7-ad94-75d365f23cbc",
+      "5afd0dfd-85d7-4786-8ec3-a2e52df160da"
+    ],
+    "summary": "Cost of Goods Sold in 2024-08: \u00a310,558.16 vs trailing 3-month average \u00a313,939.60 (-24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "310",
+    "account_name": "Cost of Goods Sold",
+    "month": "2025-07",
+    "current": 16387.25,
+    "trailing_avg": 13311.47,
+    "deviation_pct": 23.1,
+    "estimated_impact": 3075.78,
+    "bank_transaction_ids": [
+      "e51b49fb-b370-404e-8c98-6f4c8d198cfc",
+      "8b0410a0-d489-467d-b5a9-e22a1b53ec89",
+      "d20ce146-2769-43f8-bcd5-8b5dd7606f8e",
+      "5f5fb98f-8727-4f19-90a1-075755eab357",
+      "d3bbe199-0cb6-4860-9e4f-2ee5607b6e7c"
+    ],
+    "summary": "Cost of Goods Sold in 2025-07: \u00a316,387.25 vs trailing 3-month average \u00a313,311.47 (+23%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "310",
+    "account_name": "Cost of Goods Sold",
+    "month": "2025-10",
+    "current": 11997.31,
+    "trailing_avg": 15195.97,
+    "deviation_pct": -21.0,
+    "estimated_impact": 3198.66,
+    "bank_transaction_ids": [
+      "d71355de-e7c8-4514-8027-4444dcda578e",
+      "73cea597-197f-4587-a365-fd7f2806629e",
+      "cea90073-e44d-4ae1-a06d-62ef6ceef63b",
+      "699677c1-8637-4a07-bfe7-4c54e69ad3bb",
+      "ce710ce3-91fd-4d09-9f90-40228bda5dfe"
+    ],
+    "summary": "Cost of Goods Sold in 2025-10: \u00a311,997.31 vs trailing 3-month average \u00a315,195.97 (-21%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "310",
+    "account_name": "Cost of Goods Sold",
+    "month": "2025-12",
+    "current": 16816.77,
+    "trailing_avg": 12499.75,
+    "deviation_pct": 34.5,
+    "estimated_impact": 4317.02,
+    "bank_transaction_ids": [
+      "c4f0c13d-0cbe-49cb-841c-2148e5f890e2",
+      "ee2ca1c0-8eb4-4838-8d81-cd4cbaf7f96f",
+      "a21c8b5c-30c3-49b7-a04c-fc9254eeb23c",
+      "2eff2009-b11b-48f2-af85-2593654ab611",
+      "b2961a0e-f9ef-41c1-83ad-d8e6015af5d5"
+    ],
+    "summary": "Cost of Goods Sold in 2025-12: \u00a316,816.77 vs trailing 3-month average \u00a312,499.75 (+35%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "WET",
+    "account_name": "Wet Cost of Sales (drinks)",
+    "month": "2024-08",
+    "current": 3089.53,
+    "trailing_avg": 4120.04,
+    "deviation_pct": -25.0,
+    "estimated_impact": 1030.51,
+    "bank_transaction_ids": [
+      "d5538b50-0d48-4920-a626-3901dcb79d8d"
+    ],
+    "summary": "Wet Cost of Sales (drinks) in 2024-08: \u00a33,089.53 vs trailing 3-month average \u00a34,120.04 (-25%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "WET",
+    "account_name": "Wet Cost of Sales (drinks)",
+    "month": "2025-07",
+    "current": 4733.32,
+    "trailing_avg": 3787.02,
+    "deviation_pct": 25.0,
+    "estimated_impact": 946.3,
+    "bank_transaction_ids": [
+      "e51b49fb-b370-404e-8c98-6f4c8d198cfc"
+    ],
+    "summary": "Wet Cost of Sales (drinks) in 2025-07: \u00a34,733.32 vs trailing 3-month average \u00a33,787.02 (+25%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "WET",
+    "account_name": "Wet Cost of Sales (drinks)",
+    "month": "2025-10",
+    "current": 3180.97,
+    "trailing_avg": 4354.79,
+    "deviation_pct": -27.0,
+    "estimated_impact": 1173.82,
+    "bank_transaction_ids": [
+      "d71355de-e7c8-4514-8027-4444dcda578e"
+    ],
+    "summary": "Wet Cost of Sales (drinks) in 2025-10: \u00a33,180.97 vs trailing 3-month average \u00a34,354.79 (-27%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "WET",
+    "account_name": "Wet Cost of Sales (drinks)",
+    "month": "2025-12",
+    "current": 4765.56,
+    "trailing_avg": 3572.48,
+    "deviation_pct": 33.4,
+    "estimated_impact": 1193.08,
+    "bank_transaction_ids": [
+      "c4f0c13d-0cbe-49cb-841c-2148e5f890e2"
+    ],
+    "summary": "Wet Cost of Sales (drinks) in 2025-12: \u00a34,765.56 vs trailing 3-month average \u00a33,572.48 (+33%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "WET",
+    "account_name": "Wet Cost of Sales (drinks)",
+    "month": "2026-02",
+    "current": 3124.97,
+    "trailing_avg": 4010.36,
+    "deviation_pct": -22.1,
+    "estimated_impact": 885.39,
+    "bank_transaction_ids": [
+      "c99f5729-5009-46b5-bc67-1f7d21d5b260"
+    ],
+    "summary": "Wet Cost of Sales (drinks) in 2026-02: \u00a33,124.97 vs trailing 3-month average \u00a34,010.36 (-22%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "DRY",
+    "account_name": "Dry Cost of Sales (food)",
+    "month": "2023-12",
+    "current": 11292.82,
+    "trailing_avg": 9348.27,
+    "deviation_pct": 20.8,
+    "estimated_impact": 1944.55,
+    "bank_transaction_ids": [
+      "f9b34634-c920-4ac1-9aa8-8868d6174d05",
+      "aeb5d32b-d4c3-414a-810e-f05e7487367b",
+      "1674d8ec-49cc-4519-ada9-e9da50b0563c",
+      "728f0c31-bd16-4dc3-a37d-045947d27528"
+    ],
+    "summary": "Dry Cost of Sales (food) in 2023-12: \u00a311,292.82 vs trailing 3-month average \u00a39,348.27 (+21%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "DRY",
+    "account_name": "Dry Cost of Sales (food)",
+    "month": "2024-01",
+    "current": 7691.84,
+    "trailing_avg": 9810.34,
+    "deviation_pct": -21.6,
+    "estimated_impact": 2118.5,
+    "bank_transaction_ids": [
+      "c2a0f135-22d9-4cc7-8625-3bbe74e90a2c",
+      "b3edc258-e455-4f85-92b2-c5f772984b49",
+      "42d5058b-a82e-48ee-868e-1796ab4dc907",
+      "3768f063-3d28-4076-b344-e9acc32f14e5"
+    ],
+    "summary": "Dry Cost of Sales (food) in 2024-01: \u00a37,691.84 vs trailing 3-month average \u00a39,810.34 (-22%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "DRY",
+    "account_name": "Dry Cost of Sales (food)",
+    "month": "2024-08",
+    "current": 7468.63,
+    "trailing_avg": 9819.56,
+    "deviation_pct": -23.9,
+    "estimated_impact": 2350.93,
+    "bank_transaction_ids": [
+      "6ece896c-5de3-4c86-b8ed-755d48bc218e",
+      "8c08702e-3686-4a07-8540-8cf42e2da9df",
+      "12318c46-58f1-47d7-ad94-75d365f23cbc",
+      "5afd0dfd-85d7-4786-8ec3-a2e52df160da"
+    ],
+    "summary": "Dry Cost of Sales (food) in 2024-08: \u00a37,468.63 vs trailing 3-month average \u00a39,819.56 (-24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "DRY",
+    "account_name": "Dry Cost of Sales (food)",
+    "month": "2025-07",
+    "current": 11653.93,
+    "trailing_avg": 9524.45,
+    "deviation_pct": 22.4,
+    "estimated_impact": 2129.48,
+    "bank_transaction_ids": [
+      "8b0410a0-d489-467d-b5a9-e22a1b53ec89",
+      "d20ce146-2769-43f8-bcd5-8b5dd7606f8e",
+      "5f5fb98f-8727-4f19-90a1-075755eab357",
+      "d3bbe199-0cb6-4860-9e4f-2ee5607b6e7c"
+    ],
+    "summary": "Dry Cost of Sales (food) in 2025-07: \u00a311,653.93 vs trailing 3-month average \u00a39,524.45 (+22%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "DRY",
+    "account_name": "Dry Cost of Sales (food)",
+    "month": "2025-12",
+    "current": 12051.21,
+    "trailing_avg": 8927.27,
+    "deviation_pct": 35.0,
+    "estimated_impact": 3123.94,
+    "bank_transaction_ids": [
+      "ee2ca1c0-8eb4-4838-8d81-cd4cbaf7f96f",
+      "a21c8b5c-30c3-49b7-a04c-fc9254eeb23c",
+      "2eff2009-b11b-48f2-af85-2593654ab611",
+      "b2961a0e-f9ef-41c1-83ad-d8e6015af5d5"
+    ],
+    "summary": "Dry Cost of Sales (food) in 2025-12: \u00a312,051.21 vs trailing 3-month average \u00a38,927.27 (+35%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "320",
+    "account_name": "Direct Wages",
+    "month": "2025-07",
+    "current": 14807.01,
+    "trailing_avg": 11632.53,
+    "deviation_pct": 27.3,
+    "estimated_impact": 3174.48,
+    "bank_transaction_ids": [
+      "c557f22d-bd2c-4b0f-a5ca-e6cc5ad35e23"
+    ],
+    "summary": "Direct Wages in 2025-07: \u00a314,807.01 vs trailing 3-month average \u00a311,632.53 (+27%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "320",
+    "account_name": "Direct Wages",
+    "month": "2026-01",
+    "current": 10491.03,
+    "trailing_avg": 14004.53,
+    "deviation_pct": -25.1,
+    "estimated_impact": 3513.5,
+    "bank_transaction_ids": [
+      "11676623-0d33-4064-b77a-3692a1c90b35"
+    ],
+    "summary": "Direct Wages in 2026-01: \u00a310,491.03 vs trailing 3-month average \u00a314,004.53 (-25%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "month": "2026-02",
+    "current": 156.22,
+    "trailing_avg": 128.18,
+    "deviation_pct": 21.9,
+    "estimated_impact": 28.04,
+    "bank_transaction_ids": [
+      "eff94a88-d31b-40ba-8341-7c7d5987993f"
+    ],
+    "summary": "Bank Fees in 2026-02: \u00a3156.22 vs trailing 3-month average \u00a3128.18 (+22%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "month": "2026-05",
+    "current": 260.63,
+    "trailing_avg": 192.74,
+    "deviation_pct": 35.2,
+    "estimated_impact": 67.89,
+    "bank_transaction_ids": [
+      "ad01a869-f6e9-49f9-9b9d-e154dbd94d5a"
+    ],
+    "summary": "Bank Fees in 2026-05: \u00a3260.63 vs trailing 3-month average \u00a3192.74 (+35%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "month": "2026-06",
+    "current": 291.01,
+    "trailing_avg": 227.54,
+    "deviation_pct": 27.9,
+    "estimated_impact": 63.47,
+    "bank_transaction_ids": [
+      "a493f990-4fae-4d72-ab77-5bede9386745"
+    ],
+    "summary": "Bank Fees in 2026-06: \u00a3291.01 vs trailing 3-month average \u00a3227.54 (+28%)."
+  },
+  {
+    "type": "drift",
+    "severity": "medium",
+    "account_code": "404",
+    "account_name": "Bank Fees",
+    "from_month": "2025-12",
+    "to_month": "2026-06",
+    "from_value": 127.32,
+    "to_value": 291.01,
+    "drift_pct": 128.6,
+    "estimated_impact": 493.26,
+    "bank_transaction_ids": [
+      "a493f990-4fae-4d72-ab77-5bede9386745",
+      "6a227a14-bd4c-4f72-8307-287bc60a9c32"
+    ],
+    "summary": "Bank Fees has crept up \u00a3127.32 (2025-12) to \u00a3291.01 (2026-06), a slow +129% rise a monthly snapshot wouldn't catch."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2024-08",
+    "current": 320.08,
+    "trailing_avg": 429.81,
+    "deviation_pct": -25.5,
+    "estimated_impact": 109.73,
+    "bank_transaction_ids": [
+      "b67ae7fd-f002-4a8b-be1b-620d6d46d9c2"
+    ],
+    "summary": "Card Processing Fees in 2024-08: \u00a3320.08 vs trailing 3-month average \u00a3429.81 (-26%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2026-01",
+    "current": 694.68,
+    "trailing_avg": 558.67,
+    "deviation_pct": 24.3,
+    "estimated_impact": 136.01,
+    "bank_transaction_ids": [
+      "b148417f-bd42-460a-ad6e-813d44675dca"
+    ],
+    "summary": "Card Processing Fees in 2026-01: \u00a3694.68 vs trailing 3-month average \u00a3558.67 (+24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2026-04",
+    "current": 369.24,
+    "trailing_avg": 592.17,
+    "deviation_pct": -37.6,
+    "estimated_impact": 222.93,
+    "bank_transaction_ids": [
+      "312965ab-99f1-444f-a7fe-02e64bd1d68d"
+    ],
+    "summary": "Card Processing Fees in 2026-04: \u00a3369.24 vs trailing 3-month average \u00a3592.17 (-38%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "406",
+    "account_name": "Card Processing Fees",
+    "month": "2026-06",
+    "current": 469.08,
+    "trailing_avg": 385.33,
+    "deviation_pct": 21.7,
+    "estimated_impact": 83.75,
+    "bank_transaction_ids": [
+      "ef34443e-0f70-4801-86ff-0ee69eeb91fa"
+    ],
+    "summary": "Card Processing Fees in 2026-06: \u00a3469.08 vs trailing 3-month average \u00a3385.33 (+22%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2023-10",
+    "current": 269.22,
+    "trailing_avg": 356.07,
+    "deviation_pct": -24.4,
+    "estimated_impact": 86.85,
+    "bank_transaction_ids": [
+      "e74b683f-f46a-4fbc-bd57-9bac24c0bc77"
+    ],
+    "summary": "Comps & Complimentary in 2023-10: \u00a3269.22 vs trailing 3-month average \u00a3356.07 (-24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-01",
+    "current": 240.02,
+    "trailing_avg": 323.47,
+    "deviation_pct": -25.8,
+    "estimated_impact": 83.45,
+    "bank_transaction_ids": [
+      "74e21bc1-b651-4240-a89e-00f507cb8671"
+    ],
+    "summary": "Comps & Complimentary in 2024-01: \u00a3240.02 vs trailing 3-month average \u00a3323.47 (-26%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-02",
+    "current": 407.86,
+    "trailing_avg": 313.74,
+    "deviation_pct": 30.0,
+    "estimated_impact": 94.12,
+    "bank_transaction_ids": [
+      "87852fbd-888f-4281-b378-c676beb11c06"
+    ],
+    "summary": "Comps & Complimentary in 2024-02: \u00a3407.86 vs trailing 3-month average \u00a3313.74 (+30%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-04",
+    "current": 431.82,
+    "trailing_avg": 326.14,
+    "deviation_pct": 32.4,
+    "estimated_impact": 105.68,
+    "bank_transaction_ids": [
+      "fe3f6d7c-7b0e-407a-87d8-41dd6a8b75da"
+    ],
+    "summary": "Comps & Complimentary in 2024-04: \u00a3431.82 vs trailing 3-month average \u00a3326.14 (+32%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-07",
+    "current": 505.46,
+    "trailing_avg": 391.41,
+    "deviation_pct": 29.1,
+    "estimated_impact": 114.05,
+    "bank_transaction_ids": [
+      "6d051e96-5d19-4746-a901-70ff097ce18b"
+    ],
+    "summary": "Comps & Complimentary in 2024-07: \u00a3505.46 vs trailing 3-month average \u00a3391.41 (+29%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-09",
+    "current": 288.75,
+    "trailing_avg": 381.66,
+    "deviation_pct": -24.3,
+    "estimated_impact": 92.91,
+    "bank_transaction_ids": [
+      "1336f31a-3bc7-4739-bb0a-fe37678c451a"
+    ],
+    "summary": "Comps & Complimentary in 2024-09: \u00a3288.75 vs trailing 3-month average \u00a3381.66 (-24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-10",
+    "current": 416.25,
+    "trailing_avg": 338.97,
+    "deviation_pct": 22.8,
+    "estimated_impact": 77.28,
+    "bank_transaction_ids": [
+      "984a8b00-e3b4-43ed-91e6-2969416d4dc6"
+    ],
+    "summary": "Comps & Complimentary in 2024-10: \u00a3416.25 vs trailing 3-month average \u00a3338.97 (+23%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2024-12",
+    "current": 446.95,
+    "trailing_avg": 326.41,
+    "deviation_pct": 36.9,
+    "estimated_impact": 120.54,
+    "bank_transaction_ids": [
+      "4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03"
+    ],
+    "summary": "Comps & Complimentary in 2024-12: \u00a3446.95 vs trailing 3-month average \u00a3326.41 (+37%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2025-01",
+    "current": 268.63,
+    "trailing_avg": 379.14,
+    "deviation_pct": -29.1,
+    "estimated_impact": 110.51,
+    "bank_transaction_ids": [
+      "94fc654b-e244-4773-8aea-ed0a121ee6db"
+    ],
+    "summary": "Comps & Complimentary in 2025-01: \u00a3268.63 vs trailing 3-month average \u00a3379.14 (-29%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2025-02",
+    "current": 225.4,
+    "trailing_avg": 329.94,
+    "deviation_pct": -31.7,
+    "estimated_impact": 104.54,
+    "bank_transaction_ids": [
+      "348db83f-744c-4f06-8686-65879bdc111c"
+    ],
+    "summary": "Comps & Complimentary in 2025-02: \u00a3225.40 vs trailing 3-month average \u00a3329.94 (-32%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2025-06",
+    "current": 293.54,
+    "trailing_avg": 383.92,
+    "deviation_pct": -23.5,
+    "estimated_impact": 90.38,
+    "bank_transaction_ids": [
+      "b218aae0-e386-4655-8d10-04e8ca50222b"
+    ],
+    "summary": "Comps & Complimentary in 2025-06: \u00a3293.54 vs trailing 3-month average \u00a3383.92 (-24%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-05",
+    "current": 411.5,
+    "trailing_avg": 294.42,
+    "deviation_pct": 39.8,
+    "estimated_impact": 117.08,
+    "bank_transaction_ids": [
+      "70f29735-75b3-481c-9e57-bd9b755c66a4"
+    ],
+    "summary": "Comps & Complimentary in 2026-05: \u00a3411.50 vs trailing 3-month average \u00a3294.42 (+40%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "407",
+    "account_name": "Comps & Complimentary",
+    "month": "2026-06",
+    "current": 454.17,
+    "trailing_avg": 346.32,
+    "deviation_pct": 31.1,
+    "estimated_impact": 107.85,
+    "bank_transaction_ids": [
+      "c93b2b51-bad3-481d-9b11-925e9354cb23"
+    ],
+    "summary": "Comps & Complimentary in 2026-06: \u00a3454.17 vs trailing 3-month average \u00a3346.32 (+31%)."
+  },
+  {
+    "type": "variance",
+    "severity": "medium",
+    "account_code": "433",
+    "account_name": "Insurance",
+    "month": "2026-06",
+    "current": 1800.0,
+    "trailing_avg": 2400.0,
+    "deviation_pct": -25.0,
+    "estimated_impact": 600.0,
+    "bank_transaction_ids": [
+      "94468391-adce-4ff9-90fc-cde1c5bf6826"
+    ],
+    "summary": "Insurance in 2026-06: \u00a31,800.00 vs trailing 3-month average \u00a32,400.00 (-25%)."
+  },
+  {
+    "type": "novel_account_activity",
+    "severity": "medium",
+    "account_code": "473",
+    "account_name": "Repairs & Maintenance",
+    "month": "2025-05",
+    "amount": 1850.0,
+    "estimated_impact": 1850.0,
+    "bank_transaction_ids": [
+      "5002f0a6-83ec-4b9e-b648-596ab11a53d5"
+    ],
+    "summary": "Repairs & Maintenance almost never has activity, but \u00a31,850.00 was coded there in 2025-05 - worth checking it's not miscoded."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Wages-to-sales ratio",
+    "month": "2024-08",
+    "current_ratio_pct": 33.15,
+    "trailing_avg_ratio_pct": 26.41,
+    "deviation_pct": 25.5,
+    "estimated_impact": 2408.51,
+    "bank_transaction_ids": [
+      "d47ff2b9-dab8-4aed-b4aa-ca466966ed97"
+    ],
+    "summary": "Wages-to-sales ratio in 2024-08: 33.1% vs usual 26.4% (+26%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Wages-to-sales ratio",
+    "month": "2025-10",
+    "current_ratio_pct": 37.03,
+    "trailing_avg_ratio_pct": 27.26,
+    "deviation_pct": 35.9,
+    "estimated_impact": 4212.03,
+    "bank_transaction_ids": [
+      "f319b135-cbee-44bd-9277-c3ccef890ef8"
+    ],
+    "summary": "Wages-to-sales ratio in 2025-10: 37.0% vs usual 27.3% (+36%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Card fee rate (of sales)",
+    "month": "2026-02",
+    "current_ratio_pct": 1.75,
+    "trailing_avg_ratio_pct": 1.36,
+    "deviation_pct": 29.1,
+    "estimated_impact": 155.54,
+    "bank_transaction_ids": [
+      "d26f1310-723b-44b6-b504-9487982f392e"
+    ],
+    "summary": "Card fee rate (of sales) in 2026-02: 1.8% vs usual 1.4% (+29%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Card fee rate (of sales)",
+    "month": "2026-04",
+    "current_ratio_pct": 0.81,
+    "trailing_avg_ratio_pct": 1.41,
+    "deviation_pct": -42.6,
+    "estimated_impact": 274.05,
+    "bank_transaction_ids": [
+      "312965ab-99f1-444f-a7fe-02e64bd1d68d"
+    ],
+    "summary": "Card fee rate (of sales) in 2026-04: 0.8% vs usual 1.4% (-43%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Card fee rate (of sales)",
+    "month": "2026-05",
+    "current_ratio_pct": 0.87,
+    "trailing_avg_ratio_pct": 1.12,
+    "deviation_pct": -21.9,
+    "estimated_impact": 110.34,
+    "bank_transaction_ids": [
+      "b3940fcb-4607-4faf-8ad4-3d53a0384672"
+    ],
+    "summary": "Card fee rate (of sales) in 2026-05: 0.9% vs usual 1.1% (-22%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2023-11",
+    "current_ratio_pct": 0.9,
+    "trailing_avg_ratio_pct": 0.72,
+    "deviation_pct": 25.7,
+    "estimated_impact": 78.03,
+    "bank_transaction_ids": [
+      "4cbc1248-3860-4d85-931c-3fa5c08a1072"
+    ],
+    "summary": "Comps rate (of sales) in 2023-11: 0.9% vs usual 0.7% (+26%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2023-12",
+    "current_ratio_pct": 0.6,
+    "trailing_avg_ratio_pct": 0.74,
+    "deviation_pct": -19.8,
+    "estimated_impact": 78.92,
+    "bank_transaction_ids": [
+      "127dcea5-6462-4080-8059-bb86a8b80307"
+    ],
+    "summary": "Comps rate (of sales) in 2023-12: 0.6% vs usual 0.7% (-20%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-02",
+    "current_ratio_pct": 1.02,
+    "trailing_avg_ratio_pct": 0.71,
+    "deviation_pct": 43.6,
+    "estimated_impact": 123.84,
+    "bank_transaction_ids": [
+      "87852fbd-888f-4281-b378-c676beb11c06"
+    ],
+    "summary": "Comps rate (of sales) in 2024-02: 1.0% vs usual 0.7% (+44%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-04",
+    "current_ratio_pct": 0.93,
+    "trailing_avg_ratio_pct": 0.77,
+    "deviation_pct": 20.6,
+    "estimated_impact": 73.83,
+    "bank_transaction_ids": [
+      "fe3f6d7c-7b0e-407a-87d8-41dd6a8b75da"
+    ],
+    "summary": "Comps rate (of sales) in 2024-04: 0.9% vs usual 0.8% (+21%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-07",
+    "current_ratio_pct": 1.03,
+    "trailing_avg_ratio_pct": 0.86,
+    "deviation_pct": 19.6,
+    "estimated_impact": 82.72,
+    "bank_transaction_ids": [
+      "6d051e96-5d19-4746-a901-70ff097ce18b"
+    ],
+    "summary": "Comps rate (of sales) in 2024-07: 1.0% vs usual 0.9% (+20%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-08",
+    "current_ratio_pct": 0.62,
+    "trailing_avg_ratio_pct": 0.89,
+    "deviation_pct": -30.3,
+    "estimated_impact": 96.95,
+    "bank_transaction_ids": [
+      "412d6621-2b81-44e2-8b7d-c68ce4d43359"
+    ],
+    "summary": "Comps rate (of sales) in 2024-08: 0.6% vs usual 0.9% (-30%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-09",
+    "current_ratio_pct": 0.59,
+    "trailing_avg_ratio_pct": 0.84,
+    "deviation_pct": -29.9,
+    "estimated_impact": 122.94,
+    "bank_transaction_ids": [
+      "1336f31a-3bc7-4739-bb0a-fe37678c451a"
+    ],
+    "summary": "Comps rate (of sales) in 2024-09: 0.6% vs usual 0.8% (-30%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-10",
+    "current_ratio_pct": 0.89,
+    "trailing_avg_ratio_pct": 0.75,
+    "deviation_pct": 19.3,
+    "estimated_impact": 67.23,
+    "bank_transaction_ids": [
+      "984a8b00-e3b4-43ed-91e6-2969416d4dc6"
+    ],
+    "summary": "Comps rate (of sales) in 2024-10: 0.9% vs usual 0.7% (+19%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-11",
+    "current_ratio_pct": 0.57,
+    "trailing_avg_ratio_pct": 0.7,
+    "deviation_pct": -18.5,
+    "estimated_impact": 62.37,
+    "bank_transaction_ids": [
+      "e6d20bb5-7e9d-4b41-a662-4989580ad6dc"
+    ],
+    "summary": "Comps rate (of sales) in 2024-11: 0.6% vs usual 0.7% (-19%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2024-12",
+    "current_ratio_pct": 0.86,
+    "trailing_avg_ratio_pct": 0.69,
+    "deviation_pct": 25.0,
+    "estimated_impact": 89.51,
+    "bank_transaction_ids": [
+      "4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03"
+    ],
+    "summary": "Comps rate (of sales) in 2024-12: 0.9% vs usual 0.7% (+25%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2025-01",
+    "current_ratio_pct": 0.58,
+    "trailing_avg_ratio_pct": 0.77,
+    "deviation_pct": -25.0,
+    "estimated_impact": 89.66,
+    "bank_transaction_ids": [
+      "94fc654b-e244-4773-8aea-ed0a121ee6db"
+    ],
+    "summary": "Comps rate (of sales) in 2025-01: 0.6% vs usual 0.8% (-25%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2025-09",
+    "current_ratio_pct": 0.79,
+    "trailing_avg_ratio_pct": 0.65,
+    "deviation_pct": 22.0,
+    "estimated_impact": 59.99,
+    "bank_transaction_ids": [
+      "4d2e8acb-f6f2-4f2d-a08b-73f091aa6302"
+    ],
+    "summary": "Comps rate (of sales) in 2025-09: 0.8% vs usual 0.6% (+22%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2025-10",
+    "current_ratio_pct": 0.83,
+    "trailing_avg_ratio_pct": 0.7,
+    "deviation_pct": 18.5,
+    "estimated_impact": 56.01,
+    "bank_transaction_ids": [
+      "ae264a0e-ae31-4f9d-b67d-d29987c5b426"
+    ],
+    "summary": "Comps rate (of sales) in 2025-10: 0.8% vs usual 0.7% (+18%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2026-05",
+    "current_ratio_pct": 0.91,
+    "trailing_avg_ratio_pct": 0.65,
+    "deviation_pct": 39.5,
+    "estimated_impact": 116.55,
+    "bank_transaction_ids": [
+      "70f29735-75b3-481c-9e57-bd9b755c66a4"
+    ],
+    "summary": "Comps rate (of sales) in 2026-05: 0.9% vs usual 0.7% (+40%), even though the raw pound amounts alone might look fine."
+  },
+  {
+    "type": "ratio_anomaly",
+    "severity": "medium",
+    "label": "Comps rate (of sales)",
+    "month": "2026-06",
+    "current_ratio_pct": 0.88,
+    "trailing_avg_ratio_pct": 0.74,
+    "deviation_pct": 19.6,
+    "estimated_impact": 74.29,
+    "bank_transaction_ids": [
+      "c93b2b51-bad3-481d-9b11-925e9354cb23"
+    ],
+    "summary": "Comps rate (of sales) in 2026-06: 0.9% vs usual 0.7% (+20%), even though the raw pound amounts alone might look fine."
+  }
+]

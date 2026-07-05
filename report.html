@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>the pass — line check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --paper: #e6dfd0;
+  --paper-dark: #d4cbb8;
+  --ink: #1a1816;
+  --ink-faded: #4a4742;
+  --ink-blue: #2d3748;
+  --border-width: 1.5px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+body {
+  background-color: #0f0f0f;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  padding: 3vw 0;
+}
+.frame {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: var(--paper);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  container-type: inline-size;
+  padding: 4cqi;
+}
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 10;
+}
+.header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3cqi; }
+.text-hero { font-size: 4.5cqi; font-weight: 400; letter-spacing: -0.01em; line-height: 1; }
+.text-small-bold { font-size: 1.2cqi; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.italic-hero { font-family: 'Times New Roman', Times, serif; font-style: italic; color: var(--ink-faded); }
+.inspection-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3cqi; margin-bottom: 3cqi; }
+.bounded-box { border: var(--border-width) solid var(--ink); background: transparent; display: flex; flex-direction: column; position: relative; }
+.box-header { padding: 1.5cqi 2cqi; border-bottom: var(--border-width) solid var(--ink); display: flex; justify-content: space-between; align-items: center; }
+.dna-visual { padding: 2.5cqi; flex: 0 0 32%; display: flex; flex-direction: column; justify-content: center; border-bottom: var(--border-width) solid var(--ink); }
+.dna-svg { width: 100%; height: 100%; }
+.metrics-grid { padding: 2cqi; display: grid; grid-template-columns: 1fr 1fr; gap: 2cqi; flex: 1; }
+.metric-item { display: flex; flex-direction: column; justify-content: center; }
+.metric-value { font-size: 3cqi; letter-spacing: -0.02em; }
+.metric-label { font-size: 1cqi; font-weight: 700; color: var(--ink-faded); text-transform: uppercase; }
+.scrollable-log { overflow-y: auto; flex: 1; max-height: 260px; scrollbar-width: thin; }
+.terminal-titlebar { padding: 1.2cqi 2cqi; border-bottom: var(--border-width) solid var(--ink); background: #1c1c1c; display: flex; justify-content: space-between; align-items: center; }
+.term-dots { display: flex; gap: 0.6cqi; }
+.term-dots span { width: 0.9cqi; height: 0.9cqi; border-radius: 50%; display: inline-block; }
+.term-dots span:nth-child(1) { background: #ff5f56; }
+.term-dots span:nth-child(2) { background: #ffbd2e; }
+.term-dots span:nth-child(3) { background: #27c93f; }
+.term-title { font-family: 'Courier New', Courier, monospace; font-size: 1cqi; color: #8a8a8a; }
+.terminal-body { background: #0d0d0d; overflow-y: auto; flex: 1; max-height: 260px; padding: 1.5cqi 2cqi; }
+.term-line { font-family: 'Courier New', Courier, monospace; font-size: 1.05cqi; color: #d4d4d4; line-height: 1.7; white-space: pre-wrap; }
+.term-prompt { color: #4ade80; }
+.term-cursor { color: #4ade80; animation: blink 1s step-end infinite; }
+.terminal-footer { padding: 1.2cqi 2cqi; border-top: var(--border-width) solid var(--ink); background: #1c1c1c; display: flex; justify-content: space-between; align-items: baseline; font-family: 'Courier New', Courier, monospace; color: #8a8a8a; font-size: 1cqi; }
+.data-row { display: flex; align-items: center; padding: 1.6cqi 2cqi; border-bottom: var(--border-width) solid var(--ink); }
+.data-row:last-child { border-bottom: none; }
+.data-label { flex: 0 0 9cqi; font-size: 1.1cqi; font-weight: 700; text-transform: uppercase; }
+.data-value { font-size: 1.5cqi; font-weight: 400; color: var(--ink-blue); }
+.box-footer { padding: 1.5cqi 2cqi; border-top: var(--border-width) solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; }
+.fraction-text { font-size: 1.4cqi; font-weight: 500; display: flex; align-items: baseline; gap: 0.5cqi; }
+.fraction-num { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 1.8cqi; color: var(--ink-blue); }
+.blinking-dot { width: 0.8cqi; height: 0.8cqi; background-color: var(--ink); border-radius: 50%; display: inline-block; margin-right: 0.8cqi; animation: blink 2s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+.log-entry { opacity: 0; animation: logIn 0.4s ease-out forwards; animation-delay: calc(var(--i) * 0.18s); }
+@keyframes logIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.findings-section .box-header .fraction-text { font-size: 1.2cqi; }
+.module-strip { display: flex; flex-wrap: wrap; gap: 0.8cqi; padding: 1.5cqi 2cqi; }
+.module-pill {
+  display: inline-flex; align-items: center; gap: 0.6cqi;
+  border: var(--border-width) solid var(--ink); border-radius: 999px;
+  padding: 0.6cqi 1.4cqi; font-size: 1cqi; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.03em; text-decoration: none; color: var(--ink); cursor: pointer;
+}
+.module-pill:hover { background: rgba(0,0,0,0.04); }
+.report-page { animation: pageIn 0.3s ease-out; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.pager {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 2cqi 0; padding: 1.5cqi 0;
+}
+.pager button {
+  font-family: inherit; font-size: 1.1cqi; padding: 0.8cqi 1.8cqi;
+  border: var(--border-width) solid var(--ink); background: var(--paper); color: var(--ink); cursor: pointer;
+}
+.pager button:disabled { opacity: 0.3; cursor: default; }
+.pager button:not(:disabled):hover { background: var(--ink); color: var(--paper); }
+#page-indicator { font-size: 1cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.05em; }
+.module-dot { width: 0.8cqi; height: 0.8cqi; border-radius: 50%; display: inline-block; }
+.module-pill.status-clear .module-dot { background: #2f8f4f; }
+.module-pill.status-monitor .module-dot { background: #c9931f; }
+.module-pill.status-warning .module-dot { background: #a33636; }
+.text-small-bold.status-clear { color: #2f8f4f; }
+.text-small-bold.status-monitor { color: #c9931f; }
+.text-small-bold.status-warning { color: #a33636; }
+.finding-row { align-items: flex-start; padding: 2cqi; }
+.finding-main { flex: 1; }
+.finding-title { font-size: 1.6cqi; font-weight: 700; margin-bottom: 0.4cqi; }
+.finding-summary { font-size: 1.15cqi; color: var(--ink-faded); margin-bottom: 0.5cqi; }
+.finding-action { font-size: 1.05cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; }
+.finding-figures { text-align: right; flex: 0 0 auto; padding-left: 2cqi; }
+.finding-figures .fraction-num { font-size: 2.4cqi; }
+.audit-toggle { font-size: 0.95cqi; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faded); margin-top: 0.8cqi; cursor: pointer; }
+.audit-toggle:hover { color: var(--ink-blue); }
+.audit-detail { display: none; margin-top: 1cqi; border: var(--border-width) solid var(--ink-faded); background: rgba(0,0,0,0.02); }
+.chase-draft { margin-top: 1.2cqi; border: var(--border-width) solid var(--ink); background: rgba(45,55,72,0.04); padding: 1.5cqi 2cqi; }
+.chase-draft pre { font-family: 'Courier New', Courier, monospace; font-size: 1.05cqi; white-space: pre-wrap; color: var(--ink); line-height: 1.5; }
+.trace-line { font-size: 1cqi; color: var(--ink-faded); padding: 0.3cqi 0; font-style: italic; font-family: 'Times New Roman', serif; }
+.trace-line.tool { color: var(--ink-blue); font-style: normal; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="header">
+    <div style="display:flex; align-items:center; gap:1.2cqi;">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="var(--ink-blue)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M11 4 v10 M15 4 v10 M19 4 v10 M11 14 c0 3 8 3 8 0 M15 14 v22"></path>
+        <path d="M29 4 c-3 1 -4 4 -4 8 c0 4 2 6 4 6 v18"></path>
+      </svg>
+      <div>
+        <div class="text-small-bold">line check</div>
+        <div class="text-hero">the pass <span class="italic-hero">v.01</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-page" data-page="0">
+  <div class="inspection-container">
+    <div class="bounded-box">
+      <div class="box-header">
+        <div class="text-small-bold">cash flow signature</div>
+        <div class="text-small-bold" style="color: var(--ink-blue);">ref_-k!l5</div>
+      </div>
+      <div class="dna-visual">
+        <svg class="dna-svg" viewBox="0 0 400 150" fill="none" stroke="var(--ink-blue)" stroke-width="2">
+          <path d="M 0,90 C 40,90 60,95 90,92 C 130,88 150,40 175,38 C 200,36 210,90 240,90 C 270,90 280,95 310,93 C 340,91 360,60 400,58"></path>
+          <line x1="175" y1="20" x2="175" y2="150" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="4 4"></line>
+          <circle cx="175" cy="38" r="4" fill="var(--ink)"></circle>
+        </svg>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-label">confirmed impact</div>
+          <div class="metric-value">£23,486</div>
+          <div class="metric-label" style="text-transform: none; font-weight: 400; font-style: italic; font-family: 'Times New Roman', serif; margin-top: 0.3cqi;">+£32,055 under monitoring, not yet confirmed</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">risk profile</div>
+          <div class="metric-value" style="font-family: 'Times New Roman', serif; font-style: italic;">High</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">issues found</div>
+          <div class="metric-value">10</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">months reviewed</div>
+          <div class="metric-value">36</div>
+        </div>
+      </div>
+      <div class="box-footer" style="flex-direction: column; align-items: stretch; gap: 1cqi;">
+        <div style="display:flex; justify-content: space-between; align-items:center;">
+          <div class="text-small-bold">connected organisation</div>
+          <div class="text-small-bold" style="color: var(--ink-blue);">hackathon test</div>
+        </div>
+        <div style="display:flex; justify-content: space-between; align-items:center;">
+          <div class="text-small-bold" id="conn-status"><span class="blinking-dot" style="background: #2f6f4f;"></span>status: active</div>
+          <div class="text-small-bold" style="text-decoration: underline; cursor: pointer; opacity: 0.6;" onclick="disconnectXero()">disconnect</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bounded-box">
+      <div class="terminal-titlebar">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <div class="term-title">the-pass — xero-sync — zsh</div>
+        <div class="term-title" id="rescan-btn" style="cursor:pointer; text-decoration:underline;" onclick="rerunScan()"><span class="blinking-dot" style="background:#4ade80;"></span>re-run scan</div>
+      </div>
+      <div class="terminal-body" id="terminal-log">
+        <div class="term-line log-entry" style="--i: 0;"><span class="term-prompt">[10:09]&nbsp;$</span> 84 raw signals -> 10 stories after de-dup</div>
+<div class="term-line log-entry" style="--i: 1;"><span class="term-prompt">[10:07]&nbsp;$</span> aged_payable detector -> 1 bill, 993 days overdue</div>
+<div class="term-line log-entry" style="--i: 2;"><span class="term-prompt">[10:06]&nbsp;$</span> ratio_anomaly detector -> wages/sales, card-fee/sales, comps/sales</div>
+<div class="term-line log-entry" style="--i: 3;"><span class="term-prompt">[10:04]&nbsp;$</span> drift detector -> 6-month baseline, bank fees +136%</div>
+<div class="term-line log-entry" style="--i: 4;"><span class="term-prompt">[10:03]&nbsp;$</span> variance detector -> 3-month trailing avg, 10 accounts scanned</div>
+<div class="term-line log-entry" style="--i: 5;"><span class="term-prompt">[10:02]&nbsp;$</span> duplicate_payment detector -> 1 match, zurich insurance</div>
+<div class="term-line log-entry" style="--i: 6;"><span class="term-prompt">[10:00]&nbsp;$</span> pulled 1 accpay bill · aged payables scan</div>
+<div class="term-line log-entry" style="--i: 7;"><span class="term-prompt">[09:59]&nbsp;$</span> pulled 302 bank_transactions · 36 months</div>
+<div class="term-line log-entry" style="--i: 8;"><span class="term-prompt">[09:58]&nbsp;$</span> connected -> xero accounting api · oauth2 pkce</div>
+<div class="term-line log-entry" style="--i: 9;"><span class="term-prompt">[09:57]&nbsp;$</span> org: hackathon test · tenant authorised</div>
+<div class="term-line log-entry" style="--i: 10;"><span class="term-cursor">&#9608;</span></div>
+      </div>
+      <div class="terminal-footer">
+        <div>total signals</div>
+        <div id="signal-count">84 /obs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bounded-box" style="margin-bottom: 1.5cqi;">
+    <div class="box-header">
+      <div class="text-small-bold">mission control</div>
+      <div class="fraction-text"><span class="fraction-num">1</span> /9 clear</div>
+    </div>
+    <div class="module-strip"><div class="module-pill status-clear" onclick="goToPage(1)"><span class="module-dot"></span>statutory & tax</div><div class="module-pill status-warning" onclick="goToPage(2)"><span class="module-dot"></span>recurring suppliers</div><div class="module-pill status-monitor" onclick="goToPage(3)"><span class="module-dot"></span>payroll & staff ratio</div><div class="module-pill status-warning" onclick="goToPage(4)"><span class="module-dot"></span>banking & merchant fees</div><div class="module-pill status-warning" onclick="goToPage(5)"><span class="module-dot"></span>comps & discounts</div><div class="module-pill status-monitor" onclick="goToPage(6)"><span class="module-dot"></span>cost coding accuracy</div><div class="module-pill status-monitor" onclick="goToPage(7)"><span class="module-dot"></span>wet vs dry margin</div><div class="module-pill status-warning" onclick="goToPage(8)"><span class="module-dot"></span>customer receivables & chase</div><div class="module-pill status-warning" onclick="goToPage(9)"><span class="module-dot"></span>customer engagement & win-back</div></div>
+  </div>
+  </div>
+
+  <div class="report-page" data-page="1">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">statutory & tax</div>
+        <div class="text-small-bold status-clear">CLEAR</div>
+      </div>
+      <div class="data-row" style="padding: 1.5cqi 2cqi; color: var(--ink-faded); font-style: italic; font-family: 'Times New Roman', serif;">12 VAT payment(s) reviewed - no irregularities</div>
+    </div>
+    </div><div class="report-page" data-page="2">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">recurring suppliers</div>
+        <div class="text-small-bold status-warning">WARNING</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">paid your insurer twice</div>
+        <div class="finding-summary">zurich insurance paid twice: £1,800.00 on 2026-03-10 and again on 2026-03-13, 3 days apart.</div>
+        
+        <div class="finding-action">&rarr; contact zurich insurance and request a refund of the duplicate premium.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-0').style.display = document.getElementById('audit-0').style.display === 'block' ? 'none' : 'block'">view raw records (1) &darr;</div>
+        <div id="audit-0" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03-10</div><div class="data-value" style="font-size: 1cqi;">Zurich Insurance paid twice: £1,800.00 on 2026-03-10 and again on 2026-03-13, 3 days apart.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D874b29cf-3cb6-42ed-9d10-9be3be01e2b0" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db6ffe909-319c-403b-b327-cab0f77939b9" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£1,800</span></div>
+        <div class="metric-label">1 flagged /high</div>
+      </div>
+    </div>
+    
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">an old bill is still sitting unpaid</div>
+        <div class="finding-summary">bright electric co: £2,140.55 unpaid, 994 days overdue (due 2023-10-15).</div>
+        
+        <div class="finding-action">&rarr; confirm with the supplier whether this is still owed.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-1').style.display = document.getElementById('audit-1').style.display === 'block' ? 'none' : 'block'">view raw records (1) &darr;</div>
+        <div id="audit-1" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">Bright Electric Co: £2,140.55 unpaid, 994 days overdue (due 2023-10-15).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D2dac9fe0-1f3b-4b99-80c4-fc32c9a5c7ee" target="_blank" style="color: var(--ink-blue);">open bill in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£2,141</span></div>
+        <div class="metric-label">1 flagged /high</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="3">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">payroll & staff ratio</div>
+        <div class="text-small-bold status-monitor">MONITOR</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">wage cost is drifting from what sales justify</div>
+        <div class="finding-summary">wages-to-sales ratio in 2025-10: 37.0% vs usual 27.3% (+36%), even though the raw pound amounts alone might look fine.</div>
+        <svg viewBox="0 0 380 90" width="100%" height="90" style="display:block; margin-top: 0.8cqi;">
+      <line x1="258.3" y1="0" x2="258.3" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="258.3" cy="56.2" r="3" fill="var(--ink)"></circle><line x1="289.9" y1="0" x2="289.9" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="289.9" cy="10.0" r="3" fill="var(--ink)"></circle><line x1="321.4" y1="0" x2="321.4" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="321.4" cy="64.9" r="3" fill="var(--ink)"></circle>
+      <path d="M 6.0,60.9 L 16.5,57.7 L 27.0,58.4 L 37.5,60.8 L 48.1,56.6 L 58.6,61.0 L 69.1,60.0 L 79.6,61.2 L 90.1,58.6 L 100.6,60.1 L 111.1,61.8 L 121.7,55.8 L 132.2,60.9 L 142.7,28.1 L 153.2,62.8 L 163.7,55.3 L 174.2,68.9 L 184.7,65.6 L 195.3,69.5 L 205.8,63.3 L 216.3,68.2 L 226.8,73.0 L 237.3,80.0 L 247.8,71.9 L 258.3,56.2 L 268.9,55.4 L 279.4,55.1 L 289.9,10.0 L 300.4,63.2 L 310.9,67.0 L 321.4,64.9 L 331.9,55.1 L 342.5,65.2 L 353.0,62.3 L 363.5,68.0 L 374.0,67.9" fill="none" stroke="var(--ink-blue)" stroke-width="1.6"></path>
+    </svg>
+    <div style="display:flex; justify-content: space-between; font-size: 0.8cqi; color: var(--ink-faded); margin-top: 0.2cqi;">
+      <span>2023-07</span><span>2026-06</span>
+    </div>
+        <div class="finding-action">&rarr; check the roster against sales for the flagged periods.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-2').style.display = document.getElementById('audit-2').style.display === 'block' ? 'none' : 'block'">view raw records (4) &darr;</div>
+        <div id="audit-2" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-07</div><div class="data-value" style="font-size: 1cqi;">Direct Wages in 2025-07: £14,807.01 vs trailing 3-month average £11,632.53 (+27%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc557f22d-bd2c-4b0f-a5ca-e6cc5ad35e23" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-01</div><div class="data-value" style="font-size: 1cqi;">Direct Wages in 2026-01: £10,491.03 vs trailing 3-month average £14,004.53 (-25%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D11676623-0d33-4064-b77a-3692a1c90b35" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Wages-to-sales ratio in 2024-08: 33.1% vs usual 26.4% (+26%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd47ff2b9-dab8-4aed-b4aa-ca466966ed97" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-10</div><div class="data-value" style="font-size: 1cqi;">Wages-to-sales ratio in 2025-10: 37.0% vs usual 27.3% (+36%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Df319b135-cbee-44bd-9277-c3ccef890ef8" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£13,309</span></div>
+        <div class="metric-label">4 flagged /med</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="4">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">banking & merchant fees</div>
+        <div class="text-small-bold status-warning">WARNING</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">bank charges have been creeping up</div>
+        <div class="finding-summary">bank fees in 2026-04: £232.86 vs trailing 3-month average £155.12 (+50%).</div>
+        <svg viewBox="0 0 380 90" width="100%" height="90" style="display:block; margin-top: 0.8cqi;">
+      <line x1="353.0" y1="0" x2="353.0" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="353.0" cy="31.7" r="3" fill="var(--ink)"></circle><line x1="363.5" y1="0" x2="363.5" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="363.5" cy="21.3" r="3" fill="var(--ink)"></circle><line x1="374.0" y1="0" x2="374.0" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="374.0" cy="10.0" r="3" fill="var(--ink)"></circle>
+      <path d="M 6.0,79.6 L 16.5,72.7 L 27.0,70.1 L 37.5,68.0 L 48.1,72.8 L 58.6,78.3 L 69.1,73.4 L 79.6,79.2 L 90.1,79.4 L 100.6,78.3 L 111.1,77.1 L 121.7,71.8 L 132.2,69.7 L 142.7,72.7 L 153.2,78.5 L 163.7,72.3 L 174.2,74.8 L 184.7,76.0 L 195.3,80.0 L 205.8,69.8 L 216.3,68.0 L 226.8,71.7 L 237.3,75.4 L 247.8,79.4 L 258.3,70.3 L 268.9,71.2 L 279.4,79.3 L 289.9,77.1 L 300.4,67.4 L 310.9,71.1 L 321.4,73.8 L 331.9,60.3 L 342.5,48.0 L 353.0,31.7 L 363.5,21.3 L 374.0,10.0" fill="none" stroke="var(--ink-blue)" stroke-width="1.6"></path>
+    </svg>
+    <div style="display:flex; justify-content: space-between; font-size: 0.8cqi; color: var(--ink-faded); margin-top: 0.2cqi;">
+      <span>2023-07</span><span>2026-06</span>
+    </div>
+        <div class="finding-action">&rarr; ask metro bank for a breakdown - this pattern usually means a quiet fee-tier change.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-3').style.display = document.getElementById('audit-3').style.display === 'block' ? 'none' : 'block'">view raw records (6) &darr;</div>
+        <div id="audit-3" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03</div><div class="data-value" style="font-size: 1cqi;">Bank Fees in 2026-03: £189.14 vs trailing 3-month average £134.51 (+41%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D12505525-7fdc-4e1e-88c0-6810291b4a3e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-04</div><div class="data-value" style="font-size: 1cqi;">Bank Fees in 2026-04: £232.86 vs trailing 3-month average £155.12 (+50%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D86bad808-38f7-41af-96e4-6cdc4bc584b7" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-02</div><div class="data-value" style="font-size: 1cqi;">Bank Fees in 2026-02: £156.22 vs trailing 3-month average £128.18 (+22%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Deff94a88-d31b-40ba-8341-7c7d5987993f" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-05</div><div class="data-value" style="font-size: 1cqi;">Bank Fees in 2026-05: £260.63 vs trailing 3-month average £192.74 (+35%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dad01a869-f6e9-49f9-9b9d-e154dbd94d5a" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-06</div><div class="data-value" style="font-size: 1cqi;">Bank Fees in 2026-06: £291.01 vs trailing 3-month average £227.54 (+28%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da493f990-4fae-4d72-ab77-5bede9386745" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">Bank Fees has crept up £127.32 (2025-12) to £291.01 (2026-06), a slow +129% rise a monthly snapshot wouldn't catch.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da493f990-4fae-4d72-ab77-5bede9386745" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6a227a14-bd4c-4f72-8307-287bc60a9c32" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£785</span></div>
+        <div class="metric-label">6 flagged /high</div>
+      </div>
+    </div>
+    
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">card processing rate looks like it's changed</div>
+        <div class="finding-summary">card processing fees in 2025-12: £948.93 vs trailing 3-month average £376.95 (+152%).</div>
+        <svg viewBox="0 0 380 90" width="100%" height="90" style="display:block; margin-top: 0.8cqi;">
+      <line x1="310.9" y1="0" x2="310.9" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="310.9" cy="18.7" r="3" fill="var(--ink)"></circle><line x1="342.5" y1="0" x2="342.5" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="342.5" cy="78.8" r="3" fill="var(--ink)"></circle>
+      <path d="M 6.0,71.9 L 16.5,73.8 L 27.0,64.7 L 37.5,64.2 L 48.1,70.9 L 58.6,75.9 L 69.1,72.5 L 79.6,69.7 L 90.1,72.2 L 100.6,69.7 L 111.1,64.3 L 121.7,75.6 L 132.2,65.9 L 142.7,71.2 L 153.2,71.4 L 163.7,70.0 L 174.2,77.4 L 184.7,75.9 L 195.3,77.3 L 205.8,70.1 L 216.3,74.1 L 226.8,74.0 L 237.3,74.8 L 247.8,74.3 L 258.3,70.2 L 268.9,76.2 L 279.4,67.0 L 289.9,72.7 L 300.4,80.0 L 310.9,18.7 L 321.4,15.8 L 331.9,10.0 L 342.5,78.8 L 353.0,77.5 L 363.5,72.8 L 374.0,70.0" fill="none" stroke="var(--ink-blue)" stroke-width="1.6"></path>
+    </svg>
+    <div style="display:flex; justify-content: space-between; font-size: 0.8cqi; color: var(--ink-faded); margin-top: 0.2cqi;">
+      <span>2023-07</span><span>2026-06</span>
+    </div>
+        <div class="finding-action">&rarr; check your merchant statement for a rate change.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-4').style.display = document.getElementById('audit-4').style.display === 'block' ? 'none' : 'block'">view raw records (12) &darr;</div>
+        <div id="audit-4" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-12</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2025-12: £948.93 vs trailing 3-month average £376.95 (+152%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De2206650-88bd-4ebf-b71d-9a5881a418d0" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2026-03: £392.38 vs trailing 3-month average £777.68 (-50%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db4df8323-b192-42dd-b6d3-67f672b1307b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-12</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2025-12: 1.6% vs usual 0.9% (+88%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De2206650-88bd-4ebf-b71d-9a5881a418d0" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-01</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2026-01: 1.7% vs usual 1.1% (+53%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db148417f-bd42-460a-ad6e-813d44675dca" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2026-03: 0.8% vs usual 1.7% (-53%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db4df8323-b192-42dd-b6d3-67f672b1307b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2024-08: £320.08 vs trailing 3-month average £429.81 (-26%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db67ae7fd-f002-4a8b-be1b-620d6d46d9c2" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-01</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2026-01: £694.68 vs trailing 3-month average £558.67 (+24%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db148417f-bd42-460a-ad6e-813d44675dca" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-04</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2026-04: £369.24 vs trailing 3-month average £592.17 (-38%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D312965ab-99f1-444f-a7fe-02e64bd1d68d" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-06</div><div class="data-value" style="font-size: 1cqi;">Card Processing Fees in 2026-06: £469.08 vs trailing 3-month average £385.33 (+22%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Def34443e-0f70-4801-86ff-0ee69eeb91fa" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-02</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2026-02: 1.8% vs usual 1.4% (+29%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd26f1310-723b-44b6-b504-9487982f392e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-04</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2026-04: 0.8% vs usual 1.4% (-43%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D312965ab-99f1-444f-a7fe-02e64bd1d68d" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-05</div><div class="data-value" style="font-size: 1cqi;">Card fee rate (of sales) in 2026-05: 0.9% vs usual 1.1% (-22%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db3940fcb-4607-4faf-8ad4-3d53a0384672" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£3,182</span></div>
+        <div class="metric-label">12 flagged /high</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="5">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">comps & discounts</div>
+        <div class="text-small-bold status-warning">WARNING</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">comps and give-aways spiked</div>
+        <div class="finding-summary">comps rate (of sales) in 2026-01: 3.4% vs usual 0.8% (+314%), even though the raw pound amounts alone might look fine.</div>
+        <svg viewBox="0 0 380 90" width="100%" height="90" style="display:block; margin-top: 0.8cqi;">
+      <line x1="321.4" y1="0" x2="321.4" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="321.4" cy="10.0" r="3" fill="var(--ink)"></circle><line x1="331.9" y1="0" x2="331.9" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="331.9" cy="77.6" r="3" fill="var(--ink)"></circle>
+      <path d="M 6.0,79.2 L 16.5,73.3 L 27.0,75.6 L 37.5,78.9 L 48.1,71.5 L 58.6,78.9 L 69.1,78.4 L 79.6,68.8 L 90.1,76.8 L 100.6,70.7 L 111.1,74.6 L 121.7,72.1 L 132.2,68.4 L 142.7,78.3 L 153.2,79.1 L 163.7,71.8 L 174.2,79.5 L 184.7,72.6 L 195.3,79.4 L 205.8,80.0 L 216.3,78.5 L 226.8,71.7 L 237.3,76.0 L 247.8,78.5 L 258.3,76.5 L 268.9,78.3 L 279.4,74.3 L 289.9,73.2 L 300.4,75.6 L 310.9,71.1 L 321.4,10.0 L 331.9,77.6 L 342.5,75.5 L 353.0,79.6 L 363.5,71.3 L 374.0,72.0" fill="none" stroke="var(--ink-blue)" stroke-width="1.6"></path>
+    </svg>
+    <div style="display:flex; justify-content: space-between; font-size: 0.8cqi; color: var(--ink-faded); margin-top: 0.2cqi;">
+      <span>2023-07</span><span>2026-06</span>
+    </div>
+        <div class="finding-action">&rarr; review comps sign-off with site managers for the flagged month.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-5').style.display = document.getElementById('audit-5').style.display === 'block' ? 'none' : 'block'">view raw records (40) &darr;</div>
+        <div id="audit-5" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-08: £222.71 vs trailing 3-month average £415.96 (-46%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D412d6621-2b81-44e2-8b7d-c68ce4d43359" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-04</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2025-04: £458.17 vs trailing 3-month average £269.99 (+70%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc5bc7ec6-ec50-4a21-ae01-4b48356a9cc3" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-12</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2025-12: £535.78 vs trailing 3-month average £341.41 (+57%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db5b0c22e-07c4-48f2-8d9c-adea264b6f84" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-01</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-01: £1,424.99 vs trailing 3-month average £408.99 (+248%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74fc9da0-abfc-446d-8fac-d4102fafae42" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-02</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-02: £255.79 vs trailing 3-month average £764.38 (-67%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294f5998-5be9-425b-9321-129e98710fb8" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-03: £366.51 vs trailing 3-month average £738.85 (-50%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De37ef399-3e5d-4f7f-80d8-6c278fb348f9" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-04</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-04: £260.95 vs trailing 3-month average £682.43 (-62%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D682beeed-eb23-4351-b6cb-5eed47ca7818" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-04</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2025-04: 0.9% vs usual 0.6% (+54%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc5bc7ec6-ec50-4a21-ae01-4b48356a9cc3" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-01</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-01: 3.4% vs usual 0.8% (+314%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74fc9da0-abfc-446d-8fac-d4102fafae42" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-02</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-02: 0.7% vs usual 1.7% (-62%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294f5998-5be9-425b-9321-129e98710fb8" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-03</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-03: 0.7% vs usual 1.7% (-56%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De37ef399-3e5d-4f7f-80d8-6c278fb348f9" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-04</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-04: 0.6% vs usual 1.6% (-65%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D682beeed-eb23-4351-b6cb-5eed47ca7818" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2023-10</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2023-10: £269.22 vs trailing 3-month average £356.07 (-24%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De74b683f-f46a-4fbc-bd57-9bac24c0bc77" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-01</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-01: £240.02 vs trailing 3-month average £323.47 (-26%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D74e21bc1-b651-4240-a89e-00f507cb8671" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-02</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-02: £407.86 vs trailing 3-month average £313.74 (+30%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D87852fbd-888f-4281-b378-c676beb11c06" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-04</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-04: £431.82 vs trailing 3-month average £326.14 (+32%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dfe3f6d7c-7b0e-407a-87d8-41dd6a8b75da" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-07</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-07: £505.46 vs trailing 3-month average £391.41 (+29%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6d051e96-5d19-4746-a901-70ff097ce18b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-09</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-09: £288.75 vs trailing 3-month average £381.66 (-24%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1336f31a-3bc7-4739-bb0a-fe37678c451a" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-10</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-10: £416.25 vs trailing 3-month average £338.97 (+23%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D984a8b00-e3b4-43ed-91e6-2969416d4dc6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-12</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2024-12: £446.95 vs trailing 3-month average £326.41 (+37%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-01</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2025-01: £268.63 vs trailing 3-month average £379.14 (-29%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D94fc654b-e244-4773-8aea-ed0a121ee6db" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-02</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2025-02: £225.40 vs trailing 3-month average £329.94 (-32%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D348db83f-744c-4f06-8686-65879bdc111c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-06</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2025-06: £293.54 vs trailing 3-month average £383.92 (-24%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db218aae0-e386-4655-8d10-04e8ca50222b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-05</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-05: £411.50 vs trailing 3-month average £294.42 (+40%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D70f29735-75b3-481c-9e57-bd9b755c66a4" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-06</div><div class="data-value" style="font-size: 1cqi;">Comps & Complimentary in 2026-06: £454.17 vs trailing 3-month average £346.32 (+31%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc93b2b51-bad3-481d-9b11-925e9354cb23" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2023-11</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2023-11: 0.9% vs usual 0.7% (+26%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4cbc1248-3860-4d85-931c-3fa5c08a1072" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2023-12</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2023-12: 0.6% vs usual 0.7% (-20%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D127dcea5-6462-4080-8059-bb86a8b80307" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-02</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-02: 1.0% vs usual 0.7% (+44%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D87852fbd-888f-4281-b378-c676beb11c06" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-04</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-04: 0.9% vs usual 0.8% (+21%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dfe3f6d7c-7b0e-407a-87d8-41dd6a8b75da" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-07</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-07: 1.0% vs usual 0.9% (+20%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6d051e96-5d19-4746-a901-70ff097ce18b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-08: 0.6% vs usual 0.9% (-30%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D412d6621-2b81-44e2-8b7d-c68ce4d43359" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-09</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-09: 0.6% vs usual 0.8% (-30%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1336f31a-3bc7-4739-bb0a-fe37678c451a" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-10</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-10: 0.9% vs usual 0.7% (+19%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D984a8b00-e3b4-43ed-91e6-2969416d4dc6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-11</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-11: 0.6% vs usual 0.7% (-19%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De6d20bb5-7e9d-4b41-a662-4989580ad6dc" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-12</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2024-12: 0.9% vs usual 0.7% (+25%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4b4ac5ae-89fa-4fa7-b45b-fd9e8bfccf03" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-01</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2025-01: 0.6% vs usual 0.8% (-25%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D94fc654b-e244-4773-8aea-ed0a121ee6db" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-09</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2025-09: 0.8% vs usual 0.6% (+22%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D4d2e8acb-f6f2-4f2d-a08b-73f091aa6302" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-10</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2025-10: 0.8% vs usual 0.7% (+18%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dae264a0e-ae31-4f9d-b67d-d29987c5b426" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-05</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-05: 0.9% vs usual 0.7% (+40%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D70f29735-75b3-481c-9e57-bd9b755c66a4" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-06</div><div class="data-value" style="font-size: 1cqi;">Comps rate (of sales) in 2026-06: 0.9% vs usual 0.7% (+20%), even though the raw pound amounts alone might look fine.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc93b2b51-bad3-481d-9b11-925e9354cb23" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£8,061</span></div>
+        <div class="metric-label">40 flagged /high</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="6">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">cost coding accuracy</div>
+        <div class="text-small-bold status-monitor">MONITOR</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">a cost looks miscoded</div>
+        <div class="finding-summary">repairs & maintenance almost never has activity, but £1,850.00 was coded there in 2025-05 - worth checking it's not miscoded.</div>
+        
+        <div class="finding-action">&rarr; re-check this transaction with your bookkeeper.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-6').style.display = document.getElementById('audit-6').style.display === 'block' ? 'none' : 'block'">view raw records (1) &darr;</div>
+        <div id="audit-6" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-05</div><div class="data-value" style="font-size: 1cqi;">Repairs & Maintenance almost never has activity, but £1,850.00 was coded there in 2025-05 - worth checking it's not miscoded.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5002f0a6-83ec-4b9e-b648-596ab11a53d5" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£1,850</span></div>
+        <div class="metric-label">1 flagged /med</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="7">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">wet vs dry margin</div>
+        <div class="text-small-bold status-monitor">MONITOR</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">wet & dry cost mix has moved</div>
+        <div class="finding-summary">dry cost of sales (food) in 2025-12: £12,051.21 vs trailing 3-month average £8,927.27 (+35%).</div>
+        <svg viewBox="0 0 380 90" width="100%" height="90" style="display:block; margin-top: 0.8cqi;">
+      <line x1="142.7" y1="0" x2="142.7" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="142.7" cy="80.0" r="3" fill="var(--ink)"></circle><line x1="258.3" y1="0" x2="258.3" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="258.3" cy="11.3" r="3" fill="var(--ink)"></circle><line x1="310.9" y1="0" x2="310.9" y2="90" stroke="var(--ink)" stroke-width="0.5" stroke-dasharray="3 3"></line><circle cx="310.9" cy="10.0" r="3" fill="var(--ink)"></circle>
+      <path d="M 6.0,28.2 L 16.5,45.2 L 27.0,54.3 L 37.5,52.8 L 48.1,55.6 L 58.6,32.1 L 69.1,72.2 L 79.6,63.6 L 90.1,31.8 L 100.6,54.1 L 111.1,55.9 L 121.7,31.9 L 132.2,23.1 L 142.7,80.0 L 153.2,50.9 L 163.7,47.9 L 174.2,42.9 L 184.7,49.1 L 195.3,64.1 L 205.8,65.2 L 216.3,49.3 L 226.8,54.1 L 237.3,44.3 L 247.8,54.2 L 258.3,11.3 L 268.9,25.1 L 279.4,45.1 L 289.9,76.2 L 300.4,58.2 L 310.9,10.0 L 321.4,56.4 L 331.9,78.5 L 342.5,54.2 L 353.0,51.4 L 363.5,58.8 L 374.0,30.9" fill="none" stroke="var(--ink-blue)" stroke-width="1.6"></path>
+    </svg>
+    <div style="display:flex; justify-content: space-between; font-size: 0.8cqi; color: var(--ink-faded); margin-top: 0.2cqi;">
+      <span>2023-07</span><span>2026-06</span>
+    </div>
+        <div class="finding-action">&rarr; check portion sizes and supplier pricing for the flagged month.</div>
+        
+        <div class="audit-toggle" onclick="document.getElementById('audit-7').style.display = document.getElementById('audit-7').style.display === 'block' ? 'none' : 'block'">view raw records (10) &darr;</div>
+        <div id="audit-7" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Wet Cost of Sales (drinks) in 2024-08: £3,089.53 vs trailing 3-month average £4,120.04 (-25%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd5538b50-0d48-4920-a626-3901dcb79d8d" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-07</div><div class="data-value" style="font-size: 1cqi;">Wet Cost of Sales (drinks) in 2025-07: £4,733.32 vs trailing 3-month average £3,787.02 (+25%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3De51b49fb-b370-404e-8c98-6f4c8d198cfc" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-10</div><div class="data-value" style="font-size: 1cqi;">Wet Cost of Sales (drinks) in 2025-10: £3,180.97 vs trailing 3-month average £4,354.79 (-27%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd71355de-e7c8-4514-8027-4444dcda578e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-12</div><div class="data-value" style="font-size: 1cqi;">Wet Cost of Sales (drinks) in 2025-12: £4,765.56 vs trailing 3-month average £3,572.48 (+33%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc4f0c13d-0cbe-49cb-841c-2148e5f890e2" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2026-02</div><div class="data-value" style="font-size: 1cqi;">Wet Cost of Sales (drinks) in 2026-02: £3,124.97 vs trailing 3-month average £4,010.36 (-22%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc99f5729-5009-46b5-bc67-1f7d21d5b260" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2023-12</div><div class="data-value" style="font-size: 1cqi;">Dry Cost of Sales (food) in 2023-12: £11,292.82 vs trailing 3-month average £9,348.27 (+21%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Df9b34634-c920-4ac1-9aa8-8868d6174d05" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Daeb5d32b-d4c3-414a-810e-f05e7487367b" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D1674d8ec-49cc-4519-ada9-e9da50b0563c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D728f0c31-bd16-4dc3-a37d-045947d27528" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-01</div><div class="data-value" style="font-size: 1cqi;">Dry Cost of Sales (food) in 2024-01: £7,691.84 vs trailing 3-month average £9,810.34 (-22%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dc2a0f135-22d9-4cc7-8625-3bbe74e90a2c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db3edc258-e455-4f85-92b2-c5f772984b49" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D42d5058b-a82e-48ee-868e-1796ab4dc907" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D3768f063-3d28-4076-b344-e9acc32f14e5" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2024-08</div><div class="data-value" style="font-size: 1cqi;">Dry Cost of Sales (food) in 2024-08: £7,468.63 vs trailing 3-month average £9,819.56 (-24%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ece896c-5de3-4c86-b8ed-755d48bc218e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8c08702e-3686-4a07-8540-8cf42e2da9df" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D12318c46-58f1-47d7-ad94-75d365f23cbc" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5afd0dfd-85d7-4786-8ec3-a2e52df160da" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-07</div><div class="data-value" style="font-size: 1cqi;">Dry Cost of Sales (food) in 2025-07: £11,653.93 vs trailing 3-month average £9,524.45 (+22%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D8b0410a0-d489-467d-b5a9-e22a1b53ec89" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd20ce146-2769-43f8-bcd5-8b5dd7606f8e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D5f5fb98f-8727-4f19-90a1-075755eab357" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd3bbe199-0cb6-4860-9e4f-2ee5607b6e7c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;">2025-12</div><div class="data-value" style="font-size: 1cqi;">Dry Cost of Sales (food) in 2025-12: £12,051.21 vs trailing 3-month average £8,927.27 (+35%).</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dee2ca1c0-8eb4-4838-8d81-cd4cbaf7f96f" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Da21c8b5c-30c3-49b7-a04c-fc9254eeb23c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2eff2009-b11b-48f2-af85-2593654ab611" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Db2961a0e-f9ef-41c1-83ad-d8e6015af5d5" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£16,896</span></div>
+        <div class="metric-label">10 flagged /med</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="8">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">customer receivables & chase</div>
+        <div class="text-small-bold status-warning">WARNING</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">a customer is overdue paying you</div>
+        <div class="finding-summary">the camden collective - corporate events owes £3,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</div>
+        
+        <div class="finding-action">&rarr; chase before it becomes a write-off - see the drafted message below.</div>
+        <div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>**Subject: Invoice #[NUMBER] – Payment now 42 days overdue**
+
+Hi [NAME],
+
+I hope you're well. I'm writing about our outstanding invoice for £3,250.00, which was due 42 days ago.
+
+We really value our relationship with The Camden Collective, and I'm sure this has simply been overlooked during a busy period.
+
+Could you arrange payment by the end of this week? If there's any issue with the invoice or if you need a copy resent, just let me know and I'll sort it immediately.
+
+Looking forward to hearing from you.
+
+Best regards,
+
+[YOUR NAME]
+[YOUR TITLE]
+[PHONE NUMBER]</pre></div><div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted chase - The Camden Collective - Corporate Events <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>Subject: Outstanding Invoice – Payment Request
+
+Hi there,
+
+I hope you're well. I'm writing about invoice #[NUMBER] for £1,180.00, which was due 79 days ago.
+
+I understand things can slip through the cracks, but this payment is now significantly overdue and is affecting our cash flow.
+
+Could you please arrange payment by the end of this week? If there's an issue with the invoice or any reason for the delay, I'd appreciate you letting me know so we can sort it out.
+
+You can pay via bank transfer using the details on the original invoice, or let me know if you need me to resend it.
+
+Thanks for your prompt attention to this.
+
+Best regards,
+[Your name]</pre></div>
+        <div class="audit-toggle" onclick="document.getElementById('audit-8').style.display = document.getElementById('audit-8').style.display === 'block' ? 'none' : 'block'">view raw records (2) &darr;</div>
+        <div id="audit-8" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">The Camden Collective - Corporate Events owes £3,250.00, 42 days overdue (due 2026-05-24) - worth chasing before it becomes a write-off.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D5236143a-1f23-4551-9a20-ce6095ce2092" target="_blank" style="color: var(--ink-blue);">open bill in xero &#8599;</a></div></div><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">The Camden Collective - Corporate Events owes £1,180.00, 79 days overdue (due 2026-04-17) - worth chasing before it becomes a write-off.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FAccountsPayable%2FEdit.aspx%3FInvoiceID%3D79ffa19d-549e-4dde-8cde-4b76aea664e4" target="_blank" style="color: var(--ink-blue);">open bill in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£4,430</span></div>
+        <div class="metric-label">2 flagged /high</div>
+      </div>
+    </div>
+    
+    </div>
+    </div><div class="report-page" data-page="9">
+    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+      <div class="box-header">
+        <div class="text-small-bold">customer engagement & win-back</div>
+        <div class="text-small-bold status-warning">WARNING</div>
+      </div>
+      
+    <div class="data-row finding-row">
+      <div class="finding-main">
+        <div class="finding-title">a regular customer has gone quiet</div>
+        <div class="finding-summary">borough films ltd - wrap parties: 6 bookings averaging £3,087.50, then nothing for 418 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</div>
+        
+        <div class="finding-action">&rarr; send a win-back nudge before they're fully lost - see the drafted message below.</div>
+        <div class="chase-draft"><div class="text-small-bold" style="margin-bottom:0.6cqi;">drafted win-back - Borough Films Ltd - Wrap Parties <span style="opacity:0.5; font-weight:400;">(sonnet)</span></div><pre>Subject: We've missed you, Borough Films!
+
+Hi there,
+
+It's been a while since we last hosted Borough Films for one of your wrap parties – over a year now – and we've genuinely missed having your team here.
+
+We always loved the energy your crew brought, and those six celebrations you held with us were some of our favourite events. We'd love to welcome you back.
+
+If you've got a production wrapping soon, or just fancy catching up about what we could do for your next gathering, I'd be really pleased to hear from you.
+
+Hope all's well with everyone at Borough Films.
+
+Warm regards,
+
+[Your name]
+[Your title]
+[Phone number]
+[Email]</pre></div>
+        <div class="audit-toggle" onclick="document.getElementById('audit-9').style.display = document.getElementById('audit-9').style.display === 'block' ? 'none' : 'block'">view raw records (1) &darr;</div>
+        <div id="audit-9" class="audit-detail"><div class="data-row" style="padding: 1cqi 2cqi; flex-direction: column; align-items: flex-start; gap: 0.4cqi;"><div style="display:flex; width:100%; gap: 1cqi;"><div class="data-label" style="flex: 0 0 7cqi; font-size: 0.9cqi;"></div><div class="data-value" style="font-size: 1cqi;">Borough Films Ltd - Wrap Parties: 6 bookings averaging £3,087.50, then nothing for 418 days (last booked 2025-05-13) - a high-value customer who's gone quiet.</div></div><div style="font-size: 0.9cqi; padding-left: 8cqi;"><a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D6ac11376-7a09-47dc-b95b-f731c81e31c6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D2cbb7d3d-f399-4741-a0de-d14bec17f251" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3Dd45940b6-4d56-4397-97b9-5a071f78c2c8" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D294a7f71-349b-4719-8595-41c2441a623c" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D0bcc205f-07c1-4d4c-8457-6b0522f2dfd6" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a> · <a href="https://go.xero.com/organisationlogin/default.aspx?shortcode=!-k!l5&redirecturl=%2FBank%2FViewTransaction.aspx%3FbankTransactionID%3D26d520d7-4afa-4ecf-960d-e5105747dd8e" target="_blank" style="color: var(--ink-blue);">open transaction in xero &#8599;</a></div></div></div>
+      </div>
+      <div class="finding-figures">
+        <div class="fraction-text"><span class="fraction-num">£3,088</span></div>
+        <div class="metric-label">1 flagged /high</div>
+      </div>
+    </div>
+    
+    </div>
+    </div>
+
+  <div class="report-page" data-page="10">
+  <div class="bounded-box" style="margin-top: 0;">
+    <div class="box-header">
+      <div class="text-small-bold"><span class="blinking-dot"></span>ask the pass</div>
+      <div class="text-small-bold" style="opacity: 0.5;">sonnet</div>
+    </div>
+    <div style="padding: 2cqi; display: flex; gap: 1cqi;">
+      <input id="ask-input" type="text" placeholder="e.g. did we get overcharged on card fees recently?"
+        style="flex: 1; border: var(--border-width) solid var(--ink); background: transparent; padding: 1.2cqi 1.5cqi; font-family: inherit; font-size: 1.2cqi; color: var(--ink);">
+      <button id="ask-btn" style="border: var(--border-width) solid var(--ink); background: var(--ink); color: var(--paper); padding: 1.2cqi 2cqi; font-family: inherit; font-size: 1.1cqi; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;">ask</button>
+    </div>
+    <div id="ask-trace" style="padding: 0 2cqi; display: none;"></div>
+    <div id="ask-answer" style="padding: 1cqi 2cqi 2cqi; font-size: 1.2cqi; color: var(--ink-blue); font-style: italic; font-family: 'Times New Roman', serif; display: none;"></div>
+    <div id="ask-meta" style="padding: 0 2cqi 1.5cqi; font-size: 0.9cqi; color: var(--ink-faded); text-transform: uppercase; letter-spacing: 0.04em; display: none;"></div>
+  </div>
+  </div>
+
+  <div class="pager">
+    <button id="prev-btn" onclick="goToPage(currentPage - 1)">&larr; Previous</button>
+    <span id="page-indicator"></span>
+    <button id="next-btn" onclick="goToPage(currentPage + 1)">Next &rarr;</button>
+  </div>
+
+  <div class="header" style="margin-top: 1cqi; margin-bottom: 0;">
+    <div class="text-hero">the pass.</div>
+    <div class="text-small-bold" style="letter-spacing: 0.2em;">xero_api.connected</div>
+  </div>
+</div>
+<script>
+  const totalPages = 11;
+  let currentPage = 0;
+
+  function goToPage(n) {
+    if (n < 0 || n >= totalPages) return;
+    document.querySelectorAll('.report-page').forEach(el => el.style.display = 'none');
+    currentPage = n;
+    const el = document.querySelector(`.report-page[data-page="${currentPage}"]`);
+    el.style.display = 'block';
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'pageIn 0.3s ease-out';
+    document.getElementById('prev-btn').disabled = currentPage === 0;
+    document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
+    document.getElementById('page-indicator').textContent = `page ${currentPage + 1} of ${totalPages}`;
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
+    if (e.key === 'ArrowLeft') goToPage(currentPage - 1);
+  });
+  goToPage(0);
+
+  const btn = document.getElementById('ask-btn');
+  const input = document.getElementById('ask-input');
+  const answerBox = document.getElementById('ask-answer');
+  const traceBox = document.getElementById('ask-trace');
+  const metaBox = document.getElementById('ask-meta');
+
+  function addTraceLine(text, isTool) {
+    const el = document.createElement('div');
+    el.className = 'trace-line' + (isTool ? ' tool' : '');
+    el.textContent = text;
+    traceBox.appendChild(el);
+  }
+
+  async function ask() {
+    const question = input.value.trim();
+    if (!question) return;
+    traceBox.style.display = 'block';
+    traceBox.innerHTML = '';
+    answerBox.style.display = 'block';
+    answerBox.textContent = '';
+    metaBox.style.display = 'none';
+    addTraceLine('> sending question to sonnet...', false);
+
+    try {
+      const resp = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question }),
+      });
+      if (!resp.ok) {
+        const err = await resp.json();
+        answerBox.textContent = err.error || 'no response';
+        return;
+      }
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const evt = JSON.parse(line);
+          if (evt.event === 'tool_call') {
+            addTraceLine('> calling ' + evt.tool + '(' + JSON.stringify(evt.input) + ')', true);
+          } else if (evt.event === 'tool_result') {
+            addTraceLine('< ' + evt.tool + ' returned ' + evt.summary + ' (' + evt.duration_ms + 'ms)', false);
+          } else if (evt.event === 'answer') {
+            answerBox.textContent = evt.text;
+            metaBox.style.display = 'block';
+            metaBox.textContent = evt.model + ' · ' + evt.latency_ms + 'ms · ' + evt.input_tokens + ' in / ' + evt.output_tokens + ' out tokens';
+          }
+        }
+      }
+    } catch (e) {
+      answerBox.textContent = 'could not reach the demo server - is server.py running?';
+    }
+  }
+  btn.addEventListener('click', ask);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') ask(); });
+
+  async function disconnectXero() {
+    if (!confirm('This will actually revoke the Xero OAuth token via the standard revocation endpoint (RFC 7009) - not a cosmetic toggle. Continue?')) return;
+    const statusEl = document.getElementById('conn-status');
+    statusEl.textContent = 'revoking...';
+    try {
+      const resp = await fetch('/api/disconnect', { method: 'POST' });
+      const data = await resp.json();
+      statusEl.innerHTML = data.ok
+        ? '<span class="blinking-dot" style="background: #a33;"></span>status: revoked'
+        : 'status: error - ' + (data.error || 'unknown');
+    } catch (e) {
+      statusEl.textContent = 'could not reach the demo server';
+    }
+  }
+
+  async function rerunScan() {
+    const termLog = document.getElementById('terminal-log');
+    const rescanBtn = document.getElementById('rescan-btn');
+    termLog.innerHTML = '';
+    rescanBtn.style.pointerEvents = 'none';
+    rescanBtn.innerHTML = '<span class="blinking-dot" style="background:#4ade80;"></span>scanning live...';
+
+    function addLine(text) {
+      const el = document.createElement('div');
+      el.className = 'term-line';
+      el.textContent = '$ ' + text;
+      termLog.appendChild(el);
+      termLog.scrollTop = termLog.scrollHeight;
+    }
+
+    try {
+      const resp = await fetch('/api/rescan', { method: 'POST' });
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const evt = JSON.parse(line);
+          if (evt.event === 'log') addLine(evt.text);
+          if (evt.event === 'done') {
+            addLine(evt.ok ? 'scan complete - reloading with fresh results...' : 'scan failed: ' + evt.error);
+            if (evt.ok) setTimeout(() => window.location.reload(), 1500);
+          }
+        }
+      }
+    } catch (e) {
+      addLine('could not reach the demo server - is server.py running?');
+    } finally {
+      rescanBtn.style.pointerEvents = 'auto';
+    }
+  }
+</script>
+</body>
+</html>
