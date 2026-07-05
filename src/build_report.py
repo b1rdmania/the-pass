@@ -654,7 +654,7 @@ body {{
     <div class="bounded-box">
       <div class="box-header">
         <div class="text-small-bold">cash flow signature</div>
-        <div class="text-small-bold" style="color: var(--ink-blue);">ref_{SHORT_CODE.lstrip('!') if SHORT_CODE else 'na'}</div>
+        <div class="text-small-bold" style="color: var(--ink-blue);">36 months</div>
       </div>
       <div class="dna-visual">
         <svg class="dna-svg" viewBox="0 0 400 150" fill="none" stroke="var(--ink-blue)" stroke-width="2">
@@ -704,8 +704,8 @@ body {{
         {log_rows}
       </div>
       <div class="terminal-footer">
-        <div>total signals</div>
-        <div id="signal-count">{len(findings)} /obs</div>
+        <div>findings</div>
+        <div id="signal-count">{len(findings)} found</div>
       </div>
     </div>
   </div>
@@ -831,7 +831,7 @@ body {{
       </div>
     </div>
     <div style="text-align: right;">
-      <div class="text-small-bold" style="letter-spacing: 0.2em;">xero_api.connected</div>
+      <div class="text-small-bold" style="letter-spacing: 0.2em;">connected to xero</div>
       <a href="accountant.html" class="text-small-bold" style="color: var(--ink-blue); letter-spacing: 0.1em;">accountant view &#8599;</a>
     </div>
   </div>
@@ -877,7 +877,7 @@ body {{
     const note = document.getElementById('impact-note');
     if (note) note.textContent = 'no scan yet this session';
     const sc = document.getElementById('signal-count');
-    if (sc) sc.textContent = '\u2014 /obs';
+    if (sc) sc.textContent = 'none yet';
     const tl = document.getElementById('terminal-log');
     if (tl) {{
       tl.innerHTML = '<div class="term-line"><span class="term-prompt">$</span> connected \u00b7 xero accounting api \u00b7 oauth2 pkce</div>' +
@@ -889,6 +889,12 @@ body {{
         'padding: 1.6cqi 4cqi; cursor: pointer;">run full scan \u2192</button></div>' +
         '<div class="term-line" style="text-align:center; color:#8a8a8a;">36 months \u00b7 every account \u00b7 every ratio</div>';
     }}
+    // the signature chart is a result too - fade it until the scan runs
+    const dna = document.querySelector('.dna-visual');
+    if (dna) dna.style.opacity = '0.12';
+    // no paging into results that don't exist yet
+    const pager = document.querySelector('.pager');
+    if (pager) pager.style.display = 'none';
     // grey the module pills and the clear-count - no results shown before the scan
     document.querySelectorAll('.module-pill .module-dot').forEach(d => d.style.background = '#b5ada0');
     document.querySelectorAll('.fraction-text').forEach(f => {{
