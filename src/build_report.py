@@ -667,7 +667,7 @@ body {{
         <div class="metric-item">
           <div class="metric-label">confirmed impact</div>
           <div class="metric-value">{money(total_impact)}</div>
-          <div class="metric-label" style="text-transform: none; font-weight: 400; font-style: italic; font-family: 'Times New Roman', serif; margin-top: 0.3cqi;">+{money(monitor_only_impact)} under monitoring, not yet confirmed</div>
+          <div class="metric-label" id="impact-note" style="text-transform: none; font-weight: 400; font-style: italic; font-family: 'Times New Roman', serif; margin-top: 0.3cqi;">+{money(monitor_only_impact)} under monitoring, not yet confirmed</div>
         </div>
         <div class="metric-item">
           <div class="metric-label">risk profile</div>
@@ -867,6 +867,24 @@ body {{
   }});
   goToPage(0);
 
+  // demo cold-open: /?cold lands connected-but-unscanned - numbers blank,
+  // terminal waiting. the re-run scan button then fills everything live.
+  if (window.location.search.includes('cold')) {{
+    const mv = document.querySelectorAll('.metric-value');
+    if (mv[0]) mv[0].textContent = '\u2014';
+    if (mv[1]) mv[1].textContent = '\u2014';
+    if (mv[2]) mv[2].textContent = '\u2014';
+    const note = document.getElementById('impact-note');
+    if (note) note.textContent = 'no scan yet this session';
+    const sc = document.getElementById('signal-count');
+    if (sc) sc.textContent = '\u2014 /obs';
+    const tl = document.getElementById('terminal-log');
+    if (tl) tl.innerHTML = '<div class="term-line"><span class="term-prompt">$</span> connected \u00b7 xero accounting api \u00b7 oauth2 pkce</div>' +
+      '<div class="term-line"><span class="term-prompt">$</span> org: hackathon test \u00b7 tenant authorised</div>' +
+      '<div class="term-line"><span class="term-prompt">$</span> awaiting scan \u2014 hit re-run scan</div>' +
+      '<div class="term-line"><span class="term-cursor">\u2588</span></div>';
+  }}
+
   const btn = document.getElementById('ask-btn');
   const input = document.getElementById('ask-input');
   const answerBox = document.getElementById('ask-answer');
@@ -979,7 +997,7 @@ body {{
           if (evt.event === 'log') addLine(evt.text);
           if (evt.event === 'done') {{
             addLine(evt.ok ? 'scan complete - reloading with fresh results...' : 'scan failed: ' + evt.error);
-            if (evt.ok) setTimeout(() => window.location.reload(), 1500);
+            if (evt.ok) setTimeout(() => window.location.href = window.location.pathname, 1500);
           }}
         }}
       }}
