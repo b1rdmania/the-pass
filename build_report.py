@@ -487,23 +487,21 @@ def render_card(c):
 
 STATUS_LABELS = {"clear": "CLEAR", "monitor": "MONITOR", "warning": "WARNING"}
 
-# module pages are 1-indexed (page 0 is the overview/cover page) - pills
-# jump straight to a module's page rather than anchor-scrolling within one
-# long document
+# three pages: overview (0), all modules on one scrollable page (1), ask (2).
+# pills jump to page 1 and scroll to the module's section
 module_pills = ""
-module_pages = []
+module_sections = []
 for i, m in enumerate(modules):
     status_class = f"status-{m['status']}"
-    page_num = i + 1
-    module_pills += f'<div class="module-pill {status_class}" onclick="goToPage({page_num})"><span class="module-dot"></span>{m["name"]}</div>'
+    module_pills += f'<div class="module-pill {status_class}" onclick="goToModule({i})"><span class="module-dot"></span>{m["name"]}</div>'
 
     if m["cards"]:
         body_html = "".join(render_card(c) for c in m["cards"])
     else:
         body_html = f'<div class="data-row" style="padding: 1.5cqi 2cqi; color: var(--ink-faded); font-style: italic; font-family: \'Times New Roman\', serif;">{m["reviewed_note"]}</div>'
 
-    module_pages.append(f"""
-    <div class="bounded-box module-section" style="margin-bottom: 1.5cqi;">
+    module_sections.append(f"""
+    <div class="bounded-box module-section" id="module-{i}" style="margin-bottom: 1.5cqi;">
       <div class="box-header">
         <div class="text-small-bold">{m['name']}</div>
         <div class="text-small-bold {status_class}">{STATUS_LABELS[m['status']]}</div>
@@ -512,10 +510,7 @@ for i, m in enumerate(modules):
     </div>
     """)
 
-module_pages_html = "".join(
-    f'<div class="report-page" data-page="{i + 1}">{p}</div>'
-    for i, p in enumerate(module_pages)
-)
+module_pages_html = f'<div class="report-page" data-page="1">{"".join(module_sections)}</div>'
 
 html = f"""<!doctype html>
 <html lang="en">
@@ -726,7 +721,7 @@ body {{
 
   {module_pages_html}
 
-  <div class="report-page" data-page="{len(modules) + 1}">
+  <div class="report-page" data-page="2">
   <div class="bounded-box" style="margin-top: 0;">
     <div class="box-header">
       <div class="text-small-bold"><span class="blinking-dot"></span>ask the pass</div>
@@ -758,8 +753,14 @@ body {{
   </div>
 </div>
 <script>
-  const totalPages = {len(modules) + 2};
+  const totalPages = 3;
   let currentPage = 0;
+
+  function goToModule(i) {{
+    goToPage(1);
+    const target = document.getElementById('module-' + i);
+    if (target) target.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+  }}
 
   function goToPage(n) {{
     if (n < 0 || n >= totalPages) return;
